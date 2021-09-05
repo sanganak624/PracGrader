@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewUserFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="20sp"
+        android:text="New User"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/name"/>
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Name"
+        android:digits="abcdefghijklmnopqrstuvwxyz"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:singleLine="true"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Email"
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"
+        android:singleLine="true"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name"/>
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Username"
+        android:digits="abcdefghijklmnopqrstuvwxyz!@#$%^*_123456789"
+        android:imeOptions="actionNext"
+        android:inputType="textPersonName"
+        android:singleLine="true"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@id/countryDropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
+
+
+    <Spinner
+        android:id="@+id/countryDropdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/pinText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <TextView
+        android:id="@+id/pinText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter 4 Digit Pin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/countryDropdown"
+        app:layout_constraintBottom_toTopOf="@id/pinNum1"/>
+
+    <EditText
+        android:id="@+id/pinNum1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:digits="0123456789"
+        android:inputType="number"
+        android:maxLength="1"
+        android:text=""
+        android:textAlignment="center"
+        android:layout_margin="20dp"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@id/signIn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/pinNum2"
+        app:layout_constraintTop_toBottomOf="@+id/pinText" />
+
+    <EditText
+        android:id="@+id/pinNum2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:digits="0123456789"
+        android:inputType="number"
+        android:maxLength="1"
+        android:text=""
+        android:textAlignment="center"
+        android:layout_margin="20dp"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@id/signIn"
+        app:layout_constraintStart_toEndOf="@id/pinNum1"
+        app:layout_constraintEnd_toStartOf="@id/pinNum3"
+        app:layout_constraintTop_toBottomOf="@+id/pinText" />
+
+    <EditText
+        android:id="@+id/pinNum3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:digits="0123456789"
+        android:inputType="number"
+        android:maxLength="1"
+        android:text=""
+        android:textAlignment="center"
+        android:layout_margin="20dp"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@id/signIn"
+        app:layout_constraintStart_toEndOf="@id/pinNum2"
+        app:layout_constraintEnd_toStartOf="@id/pinNum4"
+        app:layout_constraintTop_toBottomOf="@+id/pinText" />
+
+    <EditText
+        android:id="@+id/pinNum4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:digits="0123456789"
+        android:inputType="number"
+        android:maxLength="1"
+        android:text=""
+        android:textAlignment="center"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@id/signIn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/pinNum3"
+        app:layout_constraintTop_toBottomOf="@+id/pinText" />
+
+    <Button
+        android:id="@+id/signIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pinNum1"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

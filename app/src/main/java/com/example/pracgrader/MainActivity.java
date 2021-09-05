@@ -1,6 +1,8 @@
 package com.example.pracgrader;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
@@ -10,5 +12,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager fm = getSupportFragmentManager();
+//        login loginFrag = (login) fm.findFragmentById(R.id.main);
+//
+//        if(loginFrag==null)
+//        {
+//            loginFrag = new login();
+//            fm.beginTransaction().add(R.id.main,loginFrag).commit();
+//        }
+
+        NewUserFragment newUserFragment = (NewUserFragment) fm.findFragmentById(R.id.main);
+
+        if(newUserFragment==null)
+        {
+            newUserFragment = new NewUserFragment();
+            fm.beginTransaction().add(R.id.main,newUserFragment).commit();
+        }
     }
 }
