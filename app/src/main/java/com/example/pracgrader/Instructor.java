@@ -5,7 +5,7 @@ import java.util.List;
 public class Instructor extends User{
     String email;
     String name;
-    String country;
+    int country;
     List<Student> students;
 
     public String getEmail() {
@@ -24,11 +24,11 @@ public class Instructor extends User{
         this.name = name;
     }
 
-    public String getCountry() {
+    public int getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(int country) {
         this.country = country;
     }
 
@@ -45,7 +45,7 @@ public class Instructor extends User{
         students.add(student);
     }
 
-    public Instructor(String username, int pin, int role, String email, String name, String country, List<Student> students) {
+    public Instructor(String username, int pin, int role, String email, String name, int country, List<Student> students) {
         super(username, pin, role);
         this.email = email;
         this.name = name;

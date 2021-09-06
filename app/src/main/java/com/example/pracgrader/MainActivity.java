@@ -22,12 +22,20 @@ public class MainActivity extends AppCompatActivity {
 //            fm.beginTransaction().add(R.id.main,loginFrag).commit();
 //        }
 
-        NewUserFragment newUserFragment = (NewUserFragment) fm.findFragmentById(R.id.main);
+//        NewUserFragment newUserFragment = (NewUserFragment) fm.findFragmentById(R.id.main);
+//
+//        if(newUserFragment==null)
+//        {
+//            newUserFragment = new NewUserFragment();
+//            fm.beginTransaction().add(R.id.main,newUserFragment).commit();
+//        }
 
-        if(newUserFragment==null)
+        ViewInstructorsFragment viewInstructorsFragment = (ViewInstructorsFragment) fm.findFragmentById(R.id.main);
+
+        if(viewInstructorsFragment==null)
         {
-            newUserFragment = new NewUserFragment();
-            fm.beginTransaction().add(R.id.main,newUserFragment).commit();
+            viewInstructorsFragment = new ViewInstructorsFragment();
+            fm.beginTransaction().add(R.id.main,viewInstructorsFragment).commit();
         }
     }
 }
