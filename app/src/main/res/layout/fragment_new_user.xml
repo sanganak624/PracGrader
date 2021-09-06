@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Name"
-        android:digits="abcdefghijklmnopqrstuvwxyz"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:imeOptions="actionNext"
         android:inputType="text"
         android:singleLine="true"

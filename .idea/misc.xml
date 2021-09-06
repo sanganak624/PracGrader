@@ -5,15 +5,19 @@
       <map>
         <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/activity_main.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/flags_list.xml" value="0.35104166666666664" />
-        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_admin_home.xml" value="0.35104166666666664" />
+        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_add_prac.xml" value="0.25" />
+        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_admin_home.xml" value="0.25" />
+        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_instructor_home.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_item.xml" value="0.2164855072463768" />
         <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_item_list.xml" value="0.2164855072463768" />
         <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_login.xml" value="0.2164855072463768" />
-        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_new_user.xml" value="0.35104166666666664" />
-        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_register_admin.xml" value="0.3328804347826087" />
-        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_view_instructors.xml" value="0.35104166666666664" />
-        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_view_student_list.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_new_user.xml" value="0.25" />
+        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_register_admin.xml" value="0.25" />
+        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_student_home.xml" value="0.23854166666666668" />
+        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_view_instructors.xml" value="0.25" />
+        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/fragment_view_student_list.xml" value="0.33" />
         <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/instructor_list_view.xml" value="0.33697916666666666" />
+        <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/student_list_view.xml" value="0.24259259259259258" />
         <entry key="..\:/Users/Sang/AndroidStudioProjects/PracGrader/app/src/main/res/layout/test.xml" value="0.35104166666666664" />
       </map>
     </option>
