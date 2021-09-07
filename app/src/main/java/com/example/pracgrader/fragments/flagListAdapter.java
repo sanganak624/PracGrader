@@ -1,4 +1,4 @@
-package com.example.pracgrader;
+package com.example.pracgrader.fragments;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.ListAdapter;
 
+import com.example.pracgrader.R;
+
 import java.util.List;
 
 public class flagListAdapter extends ArrayAdapter<String> {
@@ -19,7 +21,7 @@ public class flagListAdapter extends ArrayAdapter<String> {
 
     public flagListAdapter(Context context, List<String> countryName, List<Integer>flags)
     {
-        super(context,R.layout.flags_list,countryName);
+        super(context, R.layout.flags_list,countryName);
         this.context = context;
         this.countryName = countryName;
         this.flags = flags;

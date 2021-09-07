@@ -1,9 +1,11 @@
-package com.example.pracgrader;
+package com.example.pracgrader.classfiles;
+
+import com.example.pracgrader.R;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class flagData {
+public class FlagData {
     List<Integer> flags = new LinkedList<Integer>();
     List<String> names = new LinkedList<String>();
 

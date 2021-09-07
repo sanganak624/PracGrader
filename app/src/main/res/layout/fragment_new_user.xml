@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewUserFragment">
+    tools:context=".fragments.NewUserFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -112,7 +112,7 @@
         android:layout_margin="20dp"
         android:imeOptions="actionNext"
         android:singleLine="true"
-        app:layout_constraintBottom_toTopOf="@id/signIn"
+        app:layout_constraintBottom_toTopOf="@id/register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/pinNum2"
         app:layout_constraintTop_toBottomOf="@+id/pinText" />
@@ -129,7 +129,7 @@
         android:layout_margin="20dp"
         android:imeOptions="actionNext"
         android:singleLine="true"
-        app:layout_constraintBottom_toTopOf="@id/signIn"
+        app:layout_constraintBottom_toTopOf="@id/register"
         app:layout_constraintStart_toEndOf="@id/pinNum1"
         app:layout_constraintEnd_toStartOf="@id/pinNum3"
         app:layout_constraintTop_toBottomOf="@+id/pinText" />
@@ -146,7 +146,7 @@
         android:layout_margin="20dp"
         android:imeOptions="actionNext"
         android:singleLine="true"
-        app:layout_constraintBottom_toTopOf="@id/signIn"
+        app:layout_constraintBottom_toTopOf="@id/register"
         app:layout_constraintStart_toEndOf="@id/pinNum2"
         app:layout_constraintEnd_toStartOf="@id/pinNum4"
         app:layout_constraintTop_toBottomOf="@+id/pinText" />
@@ -162,13 +162,13 @@
         android:text=""
         android:textAlignment="center"
         android:singleLine="true"
-        app:layout_constraintBottom_toTopOf="@id/signIn"
+        app:layout_constraintBottom_toTopOf="@id/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/pinNum3"
         app:layout_constraintTop_toBottomOf="@+id/pinText" />
 
     <Button
-        android:id="@+id/signIn"
+        android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Register"

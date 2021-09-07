@@ -1,57 +1,76 @@
 package com.example.pracgrader;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
+import com.example.pracgrader.classfiles.AppData;
+import com.example.pracgrader.fragments.AdminHomeFragment;
+import com.example.pracgrader.fragments.LoginFragment;
+import com.example.pracgrader.fragments.NewUserFragment;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity  extends AppCompatActivity {
+    FragmentManager fm = getSupportFragmentManager();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager fm = getSupportFragmentManager();
-//        login loginFrag = (login) fm.findFragmentById(R.id.main);
-//
-//        if(loginFrag==null)
-//        {
-//            loginFrag = new login();
-//            fm.beginTransaction().add(R.id.main,loginFrag).commit();
-//        }
+        AppData.getInstance().fillTestData();
 
-//        NewUserFragment newUserFragment = (NewUserFragment) fm.findFragmentById(R.id.main);
-//
-//        if(newUserFragment==null)
-//        {
-//            newUserFragment = new NewUserFragment();
-//            fm.beginTransaction().add(R.id.main,newUserFragment).commit();
-//        }
 
-//        ViewInstructorsFragment viewInstructorsFragment = (ViewInstructorsFragment) fm.findFragmentById(R.id.main);
-//
-//        if(viewInstructorsFragment==null)
-//        {
-//            viewInstructorsFragment = new ViewInstructorsFragment();
-//            fm.beginTransaction().add(R.id.main,viewInstructorsFragment).commit();
-//        }
+        LoginFragment loginFrag = (LoginFragment) fm.findFragmentById(R.id.main);
 
-//        ViewStudentListFragment viewStudentListFragment = (ViewStudentListFragment) fm.findFragmentById(R.id.main);
-//
-//        if(viewStudentListFragment==null)
-//        {
-//            viewStudentListFragment = new ViewStudentListFragment();
-//            fm.beginTransaction().add(R.id.main,viewStudentListFragment).commit();
-//        }
-
-        ViewPracListFragment pracListFragment = (ViewPracListFragment) fm.findFragmentById(R.id.main);
-
-        if(pracListFragment==null)
+        if(loginFrag==null)
         {
-            pracListFragment = new ViewPracListFragment();
-            fm.beginTransaction().add(R.id.main,pracListFragment).commit();
+            loginFrag = new LoginFragment();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.addToBackStack(null);
+            ft.add(R.id.main,loginFrag).commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        /*
+        Fragment fragment = fm.findFragmentById(R.id.main);
+        if(fragment!=null)
+        {
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.remove(fragment).commit();
+        }
+        else {
+            super.onBackPressed();
+        }
+        */
+    }
+
+    public void startLogin()
+    {
+        LoginFragment loginFrag = (LoginFragment) fm.findFragmentById(R.id.main);
+
+        if(loginFrag==null)
+        {
+            loginFrag = new LoginFragment();
+            fm.beginTransaction().add(R.id.main,loginFrag).commit();
+        }
+        fm.beginTransaction().add(R.id.main,loginFrag).commit();
+    }
+
+    public void startAdminHome()
+    {
+        AdminHomeFragment adminHomeFragment = (AdminHomeFragment) fm.findFragmentById(R.id.main);
+
+        if(adminHomeFragment==null)
+        {
+            adminHomeFragment = new AdminHomeFragment();
+        }
+        fm.beginTransaction().add(R.id.main,adminHomeFragment).commit();
     }
 }

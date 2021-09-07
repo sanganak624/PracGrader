@@ -1,4 +1,4 @@
-package com.example.pracgrader;
+package com.example.pracgrader.classfiles;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ public class Admin extends User {
         this.students = students;
     }
 
-    public Admin(String username, int pin, int role, List<Student> students) {
-        super(username, pin, role);
+    public Admin(String username, int pin, List<Student> students) {
+        super(username, pin);
         this.students = students;
     }
 

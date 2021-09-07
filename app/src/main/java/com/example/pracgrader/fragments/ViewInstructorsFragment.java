@@ -1,10 +1,10 @@
-package com.example.pracgrader;
+package com.example.pracgrader.fragments;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +15,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.pracgrader.classfiles.AppData;
+import com.example.pracgrader.classfiles.Instructor;
+import com.example.pracgrader.R;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +28,6 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class ViewInstructorsFragment extends Fragment {
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -76,6 +79,16 @@ public class ViewInstructorsFragment extends Fragment {
         InstructorListAdapter instructorListAdapter = new InstructorListAdapter();
         rv.setAdapter(instructorListAdapter);
 
+        Button back = view.findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                ft.replace(R.id.main,new AdminHomeFragment()).commit();
+            }
+        });
+
         return view;
     }
 
@@ -87,39 +100,18 @@ public class ViewInstructorsFragment extends Fragment {
         public InstructorListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             InstructorListViewHolder instructorListViewHolder = new InstructorListViewHolder(layoutInflater,parent);
-            instructorList.add(new Instructor("Bob101",1234,2,"19163549@student.curtin.edu.au","bob",R.drawable.flag_ad,null));
-            instructorList.add(new Instructor("Bob201",1234,2,"yo@email.com","bob1",R.drawable.flag_au,null));
-            instructorList.add(new Instructor("Bob301",1234,2,"yo@email.com","bob2",R.drawable.flag_af,null));
-            instructorList.add(new Instructor("Bob101",1234,2,"yo@email.com","bob",R.drawable.flag_ad,null));
-            instructorList.add(new Instructor("Bob201",1234,2,"yo@email.com","bob1",R.drawable.flag_au,null));
-            instructorList.add(new Instructor("Bob301",1234,2,"yo@email.com","bob2",R.drawable.flag_af,null));
-            instructorList.add(new Instructor("Bob101",1234,2,"yo@email.com","bob",R.drawable.flag_ad,null));
-            instructorList.add(new Instructor("Bob201",1234,2,"yo@email.com","bob1",R.drawable.flag_au,null));
-            instructorList.add(new Instructor("Bob301",1234,2,"yo@email.com","bob2",R.drawable.flag_af,null));
-            instructorList.add(new Instructor("Bob101",1234,2,"yo@email.com","bob",R.drawable.flag_ad,null));
-            instructorList.add(new Instructor("Bob201",1234,2,"yo@email.com","bob1",R.drawable.flag_au,null));
-            instructorList.add(new Instructor("Bob301",1234,2,"yo@email.com","bob2",R.drawable.flag_af,null));
-            instructorList.add(new Instructor("Bob101",1234,2,"yo@email.com","bob",R.drawable.flag_ad,null));
-            instructorList.add(new Instructor("Bob201",1234,2,"yo@email.com","bob1",R.drawable.flag_au,null));
-            instructorList.add(new Instructor("Bob301",1234,2,"yo@email.com","bob2",R.drawable.flag_af,null));
-            instructorList.add(new Instructor("Bob101",1234,2,"yo@email.com","bob",R.drawable.flag_ad,null));
-            instructorList.add(new Instructor("Bob201",1234,2,"yo@email.com","bob1",R.drawable.flag_au,null));
-            instructorList.add(new Instructor("Bob301",1234,2,"yo@email.com","bob2",R.drawable.flag_af,null));
-            instructorList.add(new Instructor("Bob101",1234,2,"yo@email.com","bob",R.drawable.flag_ad,null));
-            instructorList.add(new Instructor("Bob201",1234,2,"yo@email.com","bob1",R.drawable.flag_au,null));
-            instructorList.add(new Instructor("Bob301",1234,2,"yo@email.com","bob2",R.drawable.flag_af,null));
             return instructorListViewHolder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull InstructorListViewHolder holder, int position) {
 
-            holder.bind(instructorList.get(position));
+            holder.bind(AppData.getInstance().getInstructor(position));
         }
 
         @Override
         public int getItemCount() {
-            return 21;
+            return AppData.getInstance().getInstructors().size();
         }
     }
 
@@ -132,10 +124,6 @@ public class ViewInstructorsFragment extends Fragment {
 
         public InstructorListViewHolder(LayoutInflater li, ViewGroup parent) {
             super(li.inflate(R.layout.instructor_list_view, parent, false));
-
-            //ViewGroup.LayoutParams lp = itemView.getLayoutParams();
-            //lp.width = 150;
-            //.height = 150;
 
             name = itemView.findViewById(R.id.instructorName);
             email = itemView.findViewById(R.id.instructorEmail);

@@ -1,9 +1,12 @@
-package com.example.pracgrader;
+package com.example.pracgrader.fragments;
+
+
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,8 +17,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.pracgrader.R;
+
 import java.util.LinkedList;
 import java.util.List;
+
+import com.example.pracgrader.classfiles.AppData;
+import com.example.pracgrader.classfiles.Prac;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,31 +83,36 @@ public class ViewPracListFragment extends Fragment {
         PracListAdapter pracListAdapter = new PracListAdapter();
         rv.setAdapter(pracListAdapter);
 
+        Button back = view.findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                ft.replace(R.id.main,new AdminHomeFragment()).commit();
+            }
+        });
         return view;
     }
 
     public class PracListAdapter extends RecyclerView.Adapter<PracListViewHolder>{
 
-        List<Prac> pracs = new LinkedList<>();
         @NonNull
         @Override
         public PracListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             PracListViewHolder pracListViewHolder = new PracListViewHolder(layoutInflater,parent);
-            pracs.add(new Prac("Prac1",20,10,"brh"));
-            pracs.add(new Prac("Prac1",21,-1,"brh"));
-            pracs.add(new Prac("Prac1",265,-1,"brh"));
             return pracListViewHolder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull PracListViewHolder holder, int position) {
-            holder.bind(pracs.get(position));
+            holder.bind(AppData.getInstance().getPrac(position));
         }
 
         @Override
         public int getItemCount() {
-            return 3;
+            return AppData.getInstance().getPracs().size();
         }
     }
 

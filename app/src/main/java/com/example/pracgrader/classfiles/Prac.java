@@ -1,4 +1,4 @@
-package com.example.pracgrader;
+package com.example.pracgrader.classfiles;
 
 public class Prac {
     String title;
@@ -42,6 +42,12 @@ public class Prac {
         this.title = title;
         this.maxMarks = maxMarks;
         this.mark = mark;
+        this.description = description;
+    }
+
+    public Prac(String title, int maxMarks, String description) {
+        this.title = title;
+        this.maxMarks = maxMarks;
         this.description = description;
     }
 }

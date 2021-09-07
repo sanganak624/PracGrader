@@ -1,9 +1,9 @@
-package com.example.pracgrader;
+package com.example.pracgrader.classfiles;
 
-public abstract class User {
+public class User {
     String username;
     int pin;
-    int role;
+    //int role; //1=Admin , 2=Instructor, 3=Student
 
     public String getUsername() {
         return username;
@@ -13,9 +13,6 @@ public abstract class User {
         return pin;
     }
 
-    public int getRole() {
-        return role;
-    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -25,14 +22,11 @@ public abstract class User {
         this.pin = pin;
     }
 
-    public void setRole(int role) {
-        this.role = role;
-    }
 
-    public User(String username, int pin, int role) {
+    public User(String username, int pin) {
         this.username = username;
         this.pin = pin;
-        this.role = role;
+        //this.role = role;
     }
 
 

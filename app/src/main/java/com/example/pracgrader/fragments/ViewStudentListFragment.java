@@ -1,10 +1,11 @@
-package com.example.pracgrader;
+package com.example.pracgrader.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +22,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pracgrader.R;
+
 import java.util.LinkedList;
 import java.util.List;
+
+import com.example.pracgrader.classfiles.AppData;
+import com.example.pracgrader.classfiles.Student;
+import com.example.pracgrader.classfiles.FlagData;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,7 +102,7 @@ public class ViewStudentListFragment extends Fragment {
         filterSpinner.setAdapter(filterAdapter);
 
         //Flag Spinner setup
-        flagData flagData = new flagData();
+        FlagData flagData = new FlagData();
         List<String> names = flagData.getNames();
         List<Integer> flags = flagData.getFlags();
 
@@ -128,6 +135,16 @@ public class ViewStudentListFragment extends Fragment {
             }
         });
 
+        Button back = view.findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                ft.replace(R.id.main,new AdminHomeFragment()).commit();
+            }
+        });
+
         return view;
     }
 
@@ -140,21 +157,17 @@ public class ViewStudentListFragment extends Fragment {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             StudentListViewHolder studentListViewHolder = new StudentListViewHolder(layoutInflater,parent);
 
-            students.add(new Student("bob1",1234,3,"bob",R.drawable.flag_ad,null,"yoo"));
-            students.add(new Student("bob1",1234,3,"bob",R.drawable.flag_ad,null,"yoo"));
-            students.add(new Student("bob1",1234,3,"bob",R.drawable.flag_ad,null,"yoo"));
-
             return studentListViewHolder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull StudentListViewHolder holder, int position) {
-            holder.bind(students.get(position));
+            holder.bind(AppData.getInstance().getStudent(position));
         }
 
         @Override
         public int getItemCount() {
-            return 3;
+            return AppData.getInstance().getStudents().size();
         }
     }
 

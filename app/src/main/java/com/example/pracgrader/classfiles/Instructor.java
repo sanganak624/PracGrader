@@ -1,8 +1,11 @@
-package com.example.pracgrader;
+package com.example.pracgrader.classfiles;
 
 import java.util.List;
 
-public class Instructor extends User{
+import com.example.pracgrader.classfiles.Student;
+import com.example.pracgrader.classfiles.User;
+
+public class Instructor extends User {
     String email;
     String name;
     int country;
@@ -45,11 +48,18 @@ public class Instructor extends User{
         students.add(student);
     }
 
-    public Instructor(String username, int pin, int role, String email, String name, int country, List<Student> students) {
-        super(username, pin, role);
+    public Instructor(String username, int pin,String name, String email, int country, List<Student> students) {
+        super(username, pin);
         this.email = email;
         this.name = name;
         this.country = country;
         this.students = students;
+    }
+
+    public Instructor(String name, String email, int country) {
+        super(null,-1);
+        this.email = email;
+        this.name = name;
+        this.country = country;
     }
 }
