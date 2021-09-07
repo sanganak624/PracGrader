@@ -38,12 +38,20 @@ public class MainActivity extends AppCompatActivity {
 //            fm.beginTransaction().add(R.id.main,viewInstructorsFragment).commit();
 //        }
 
-        ViewStudentListFragment viewStudentListFragment = (ViewStudentListFragment) fm.findFragmentById(R.id.main);
+//        ViewStudentListFragment viewStudentListFragment = (ViewStudentListFragment) fm.findFragmentById(R.id.main);
+//
+//        if(viewStudentListFragment==null)
+//        {
+//            viewStudentListFragment = new ViewStudentListFragment();
+//            fm.beginTransaction().add(R.id.main,viewStudentListFragment).commit();
+//        }
 
-        if(viewStudentListFragment==null)
+        ViewPracListFragment pracListFragment = (ViewPracListFragment) fm.findFragmentById(R.id.main);
+
+        if(pracListFragment==null)
         {
-            viewStudentListFragment = new ViewStudentListFragment();
-            fm.beginTransaction().add(R.id.main,viewStudentListFragment).commit();
+            pracListFragment = new ViewPracListFragment();
+            fm.beginTransaction().add(R.id.main,pracListFragment).commit();
         }
     }
 }
