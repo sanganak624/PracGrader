@@ -2,8 +2,8 @@ package com.example.pracgrader.classfiles;
 
 public class Prac {
     String title;
-    int maxMarks;
-    int mark;
+    double maxMarks;
+    double mark;
     String description;
 
     public String getTitle() {
@@ -14,11 +14,11 @@ public class Prac {
         this.title = title;
     }
 
-    public int getMaxMarks() {
+    public double getMaxMarks() {
         return maxMarks;
     }
 
-    public void setMaxMarks(int maxMarks) {
+    public void setMaxMarks(double maxMarks) {
         this.maxMarks = maxMarks;
     }
 
@@ -30,7 +30,7 @@ public class Prac {
         this.description = description;
     }
 
-    public int getMark() {
+    public double getMark() {
         return mark;
     }
 
@@ -38,14 +38,14 @@ public class Prac {
         this.mark = mark;
     }
 
-    public Prac(String title, int maxMarks, int mark, String description) {
+    public Prac(String title, double maxMarks, double mark, String description) {
         this.title = title;
         this.maxMarks = maxMarks;
         this.mark = mark;
         this.description = description;
     }
 
-    public Prac(String title, int maxMarks, String description) {
+    public Prac(String title, double maxMarks, String description) {
         this.title = title;
         this.maxMarks = maxMarks;
         this.description = description;
