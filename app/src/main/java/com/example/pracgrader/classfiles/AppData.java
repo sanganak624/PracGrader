@@ -1,5 +1,9 @@
 package com.example.pracgrader.classfiles;
 
+import android.text.TextUtils;
+import android.util.Patterns;
+import android.widget.EditText;
+
 import com.example.pracgrader.R;
 
 import java.util.LinkedList;
@@ -142,5 +146,48 @@ public class AppData {
         instructors.add(inst1);
 
         currentUser = inst1;
+    }
+
+    //Validation checks
+    public boolean uniqueUsername(String newUser)
+    {
+        //Admin list
+        for (int i = 0; i < admins.size(); i++) {
+            if (admins.get(i).username.equals(newUser))
+            {
+                return false;
+            }
+        }
+       //Instructor List
+        for (int i = 0; i < instructors.size(); i++) {
+            if (instructors.get(i).username.equals(newUser))
+            {
+                return false;
+            }
+        }
+        //Student List
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).username.equals(newUser))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
+    public static int stringToPin(List<EditText> pin)
+    {
+        String num1 = pin.get(0).getText().toString();
+        String num2 = pin.get(1).getText().toString();
+        String num3 = pin.get(2).getText().toString();
+        String num4 = pin.get(3).getText().toString();
+
+        int intPin = Integer.parseInt(num1+num2+num3+num4);
+
+        return intPin;
     }
 }

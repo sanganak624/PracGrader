@@ -63,6 +63,11 @@ public class Student extends User {
         this.email = email;
     }
 
+    public Student()
+    {
+        super(null,-1);
+    }
+
     public void addPrac(Prac newPrac)
     {
         Prac copyPrac = new Prac(newPrac.title,newPrac.maxMarks,newPrac.mark,newPrac.description);

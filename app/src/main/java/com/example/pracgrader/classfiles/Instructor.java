@@ -1,5 +1,6 @@
 package com.example.pracgrader.classfiles;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.example.pracgrader.classfiles.Student;
@@ -9,7 +10,7 @@ public class Instructor extends User {
     String email;
     String name;
     int country;
-    List<Student> students;
+    List<Student> students = new LinkedList<>();
 
     public String getEmail() {
         return email;
@@ -61,5 +62,10 @@ public class Instructor extends User {
         this.email = email;
         this.name = name;
         this.country = country;
+    }
+
+    public Instructor()
+    {
+        super(null,-1);
     }
 }

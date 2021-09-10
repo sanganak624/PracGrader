@@ -19,7 +19,6 @@ import com.example.pracgrader.R;
  */
 public class AdminHomeFragment extends Fragment {
     Button logout;
-    Button editProfile;
     Button addInstructor;
     Button addStudent;
     Button addPracticals;
@@ -81,7 +80,7 @@ public class AdminHomeFragment extends Fragment {
     private void setXML(View view)
     {
         logout = view.findViewById(R.id.logout);
-        editProfile = view.findViewById(R.id.editProfile);
+
         addInstructor = view.findViewById(R.id.addInstructor);
         addStudent = view.findViewById(R.id.addStudent);
         addPracticals = view.findViewById(R.id.addPracticals);
@@ -97,17 +96,6 @@ public class AdminHomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ft.replace(R.id.main,new LoginFragment()).commit();
-            }
-        });
-
-        editProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NewUserFragment newUserFragment = new NewUserFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("source","editProfileAdmin");
-                newUserFragment.setArguments(bundle);
-                ft.replace(R.id.main,newUserFragment).commit();
             }
         });
 

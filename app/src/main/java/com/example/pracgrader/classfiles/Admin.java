@@ -1,9 +1,10 @@
 package com.example.pracgrader.classfiles;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Admin extends User {
-    List<Student> students;
+    List<Student> students = new LinkedList<>();
 
     public List<Student> getStudents() {
         return students;
