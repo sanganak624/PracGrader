@@ -32,12 +32,16 @@ public class MainActivity  extends AppCompatActivity {
             if(loginFrag==null)
             {
                 loginFrag = new LoginFragment();
-                ft.add(R.id.main, loginFrag).commit();
             }
+            ft.add(R.id.main, loginFrag).commit();
         }
         else
         {
             RegisterAdminFragment registerAdminFragment = (RegisterAdminFragment) fm.findFragmentById(R.id.main);
+            if(registerAdminFragment==null)
+            {
+                registerAdminFragment = new RegisterAdminFragment();
+            }
             ft.add(R.id.main, registerAdminFragment).commit();
         }
     }

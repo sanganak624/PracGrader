@@ -6,6 +6,7 @@ import java.util.List;
 public class Student extends User {
     String name;
     int country;
+    double avgMark;
     List<Prac> pracs = new LinkedList<Prac>();
     String email;
 
@@ -39,6 +40,14 @@ public class Student extends User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public double getAvgMark() {
+        return avgMark;
+    }
+
+    public void setAvgMark(double avgMark) {
+        this.avgMark = avgMark;
     }
 
     public Student(String username, int pin, String name, String email, int country, List<Prac> pracs) {

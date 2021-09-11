@@ -27,6 +27,7 @@ import com.example.pracgrader.R;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.example.pracgrader.classfiles.Admin;
 import com.example.pracgrader.classfiles.AppData;
 import com.example.pracgrader.classfiles.Instructor;
 import com.example.pracgrader.classfiles.Student;
@@ -37,6 +38,12 @@ public class ViewStudentListFragment extends Fragment {
     String source;
     String purpose;
     int pos;
+
+    Button filter;
+    EditText searchName;
+    Button back;
+    int filterRes;
+    Integer flagSelected;
 
     AppData appData = AppData.getInstance();
 
@@ -50,6 +57,9 @@ public class ViewStudentListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_student_list, container, false);
+        back = view.findViewById(R.id.back);
+        filter = view.findViewById(R.id.filterButton);
+        searchName = view.findViewById(R.id.searchText);
 
         Bundle bundle = getArguments();
         source = bundle.getString("source");
@@ -84,8 +94,28 @@ public class ViewStudentListFragment extends Fragment {
 
         //Flag Spinner setup
         FlagData flagData = new FlagData();
-        List<String> names = flagData.getNames();
-        List<Integer> flags = flagData.getFlags();
+        List<String> names = new LinkedList<>();
+        List<Integer> flags = new LinkedList<>();
+        List<Student> students;
+        if(source.equals("Instructor"))
+        {
+            students = ((Instructor) appData.getCurrentUser()).getStudents();
+        }
+        else
+        {
+            students = ((Admin) appData.getCurrentUser()).getStudents();
+        }
+
+        for(int i=0; i<students.size();i++)
+        {
+            Student student = students.get(i);
+            if(!isInFlagList(student.getCountry(),flags))
+            {
+                int flagPos = flagData.getFlagInt(student.getCountry());
+                names.add(flagData.getName(flagPos));
+                flags.add(student.getCountry());
+            }
+        }
 
         flagListAdapter flagListAdapter = new flagListAdapter(getContext(),names,flags);
 
@@ -95,9 +125,9 @@ public class ViewStudentListFragment extends Fragment {
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                int result = filterSpinner.getSelectedItemPosition();
+                filterRes = filterSpinner.getSelectedItemPosition();
 
-                if(result==0)
+                if(filterRes==0)
                 {
                     searchText.setVisibility(View.VISIBLE);
                     flagSpinner.setVisibility(View.INVISIBLE);
@@ -115,7 +145,58 @@ public class ViewStudentListFragment extends Fragment {
             }
         });
 
-        Button back = view.findViewById(R.id.back);
+        flagSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                flagSelected = flags.get(i);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(filterRes==0)
+                {
+                    if(searchName.length()>0)
+                    {
+                        List<Student> filteredList = new LinkedList<>();
+                        for(int i=0; i<students.size();i++)
+                        {
+                            if(students.get(i).getName().contains(searchName.getText().toString()))
+                            {
+                                filteredList.add(students.get(i));
+                            }
+                        }
+                        StudentListAdapter newStudentList = new StudentListAdapter(filteredList);
+                        rv.swapAdapter(newStudentList,false);
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"Search Field Empty",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    List<Student> filteredList = new LinkedList<>();
+                    for (int i=0; i<students.size(); i++)
+                    {
+                        Integer flagid = students.get(i).getCountry();
+                        if(flagid.equals(flagSelected))
+                        {
+                            filteredList.add(students.get(i));
+                        }
+                    }
+                    StudentListAdapter newStudentList = new StudentListAdapter(filteredList);
+                    rv.swapAdapter(newStudentList,false);
+                }
+            }
+        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +214,18 @@ public class ViewStudentListFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private boolean isInFlagList(Integer flagID,List<Integer> flags)
+    {
+        for(int i=0; i<flags.size();i++)
+        {
+            if(flags.get(i).equals(flagID))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public class StudentListAdapter extends RecyclerView.Adapter<StudentListViewHolder>

@@ -169,6 +169,10 @@ public class ViewPracListFragment extends Fragment {
             {
                 pracMark.setHint("/"+prac.getMaxMarks());
                 update.setText("Edit");
+                if (!pracEditable(prac))
+                {
+                    update.setVisibility(View.INVISIBLE);
+                }
             }
             else
             {
@@ -225,6 +229,32 @@ public class ViewPracListFragment extends Fragment {
 
         }
 
+        private boolean pracEditable(Prac prac)
+        {
+            boolean pracEditable = true;
+
+            List<Student> students = appData.getStudents();
+
+            for(int i=0; i<students.size(); i++)
+            {
+                Student student = students.get(i);
+                List<Prac> pracs = student.getPracs();
+                for (int j=0; j<pracs.size(); j++)
+                {
+                    Prac prac1 = pracs.get(j);
+                    if(prac.getTitle().equals(prac1.getTitle())&&
+                       prac.getDescription().equals(prac1.getDescription()))
+                    {
+                        if (prac1.getMark()!=-1)
+                        {
+                            return false;
+                        }
+                        j = pracs.size();
+                    }
+                }
+            }
+            return pracEditable;
+        }
 
         private boolean checkMark(Prac prac)
         {

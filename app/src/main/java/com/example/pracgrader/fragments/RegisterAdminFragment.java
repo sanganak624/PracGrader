@@ -3,7 +3,9 @@ package com.example.pracgrader.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pracgrader.R;
+import com.example.pracgrader.classfiles.Admin;
 import com.example.pracgrader.classfiles.AppData;
 import com.example.pracgrader.classfiles.Instructor;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -23,9 +27,10 @@ public class RegisterAdminFragment extends Fragment {
     EditText userName;
     TextView pinLabel;
     Button register;
-    List<EditText> pin;
+    List<EditText> pin = new LinkedList<>();
     AppData appData = AppData.getInstance();
 
+    int oldPin = 0;
     int attempt = 0;
 
     public RegisterAdminFragment() {
@@ -37,7 +42,7 @@ public class RegisterAdminFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register_admin, container, false);
         setXML(view);
-
+        onClicks();
 
         return view;
     }
@@ -46,7 +51,7 @@ public class RegisterAdminFragment extends Fragment {
     {
         userName = view.findViewById(R.id.username);
         pinLabel = view.findViewById(R.id.pinLabel);
-        register = view.findViewById(R.id.register);
+        register = view.findViewById(R.id.signIn);
         pin.add(view.findViewById(R.id.pinNum1));
         pin.add(view.findViewById(R.id.pinNum2));
         pin.add(view.findViewById(R.id.pinNum3));
@@ -58,12 +63,52 @@ public class RegisterAdminFragment extends Fragment {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pinCheck()&&userNameCheck())
+                if(attempt == 0)
                 {
-
+                    if (pinCheck() && userNameCheck()) {
+                        oldPin = AppData.stringToPin(pin);
+                        pinLabel.setText("Confirm Pin");
+                        register.setText("Confirm Pin");
+                        userName.setEnabled(false);
+                        userName.setInputType(InputType.TYPE_NULL);
+                        clearPin();
+                        Toast.makeText(getContext(),"Confirm Pin",Toast.LENGTH_SHORT).show();
+                        attempt++;
+                    }
+                }
+                else if(attempt == 1)
+                {
+                    int newPin = AppData.stringToPin(pin);
+                    if(oldPin==newPin)
+                    {
+                        Admin admin = new Admin();
+                        admin.setPin(newPin);
+                        admin.setUsername(userName.getText().toString());
+                        appData.addAdmin(admin);
+                        Toast.makeText(getContext(),"Admin Created",Toast.LENGTH_SHORT).show();
+                        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                        ft.replace(R.id.main, new LoginFragment()).commit();
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"Pin Mismatch",Toast.LENGTH_SHORT).show();
+                        pinLabel.setText("Enter Pin");
+                        register.setText("Register");
+                        userName.setEnabled(true);
+                        userName.setInputType(InputType.TYPE_CLASS_TEXT);
+                        attempt=0;
+                    }
                 }
             }
         });
+    }
+
+    private void clearPin()
+    {
+        pin.get(0).setText("");
+        pin.get(1).setText("");
+        pin.get(2).setText("");
+        pin.get(3).setText("");
     }
 
     private boolean pinCheck()

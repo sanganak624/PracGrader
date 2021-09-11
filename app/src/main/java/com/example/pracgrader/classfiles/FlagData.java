@@ -58,6 +58,24 @@ public class FlagData {
         return flags;
     }
 
+    public int getFlagInt(Integer flagID)
+    {
+        List<Integer> flags = getFlags();
+        for(int i=0;i<flags.size();i++)
+        {
+            if(flags.get(i).equals(flagID))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public String getName(int i)
+    {
+        return getNames().get(i);
+    }
+
     public List<String> getNames()
     {
         names.add("Andorra");

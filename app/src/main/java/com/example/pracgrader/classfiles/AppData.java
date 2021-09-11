@@ -158,7 +158,7 @@ public class AppData {
 
         Admin admin = new Admin("admin",1111,students);
 
-        //admins.add(admin);
+        admins.add(admin);
         instructors.add(inst1);
     }
 
