@@ -38,34 +38,39 @@ public class AddPracFragment extends Fragment {
     Button save;
     Button delete;
 
-    String version;
+    String source;
+    String purpose;
+    int pos;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_prac, container, false);
-        String source = "Admin";
-        Bundle bundle = getArguments();
-        if(bundle != null)
-        {
-            source = bundle.getString("source","Admin");
-            version = source;
-        }
 
+        Bundle bundle = getArguments();
+        source = bundle.getString("source");
+        purpose = bundle.getString("purpose");
+        pos = bundle.getInt("loc");
         setXML(view);
         onClicks();
         onFocusListeners();
 
-        switch (source)
+        switch (purpose)
         {
-            case "addPracticalsAdmin":
+            case "addPracticals":
                 title.setText("Add Practical");
                 delete.setVisibility(View.GONE);
                 break;
-            case "viewPracticalsAdmin":
+            case "viewPractical":
                 title.setText("Edit Practical");
                 delete.setVisibility(View.VISIBLE);
+
+                Prac prac = appData.getPrac(pos);
+
+                name.setText(prac.getTitle());
+                description.setText(prac.getDescription());
+                maxMark.setText(Double.toString(prac.getMaxMarks()));
                 break;
             default:
         }
@@ -89,27 +94,81 @@ public class AddPracFragment extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ft.replace(R.id.main,new AdminHomeFragment()).commit();
+                if(purpose.equals("addPracticals"))
+                {
+                    ft.replace(R.id.main, new AdminHomeFragment()).commit();
+                }
+                else if(purpose.equals("viewPractical"))
+                {
+                    ViewPracListFragment pracListFragment = new ViewPracListFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("source","Admin");
+                    bundle.putString("purpose","viewPracticals");
+                    pracListFragment.setArguments(bundle);
+                    ft.replace(R.id.main,pracListFragment).commit();
+                }
             }
         });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(version.equals("addPracticalsAdmin"))
+                if(desCheck()&&nameCheck()&&maxMarkCheck())
                 {
-                    if(desCheck()&&nameCheck()&&maxMarkCheck())
+                    if(purpose.equals("addPracticals"))
                     {
+
                         Prac newPrac = new Prac(name.getText().toString(),Double.parseDouble(maxMark.getText().toString())
                         ,description.getText().toString());
 
                         appData.addPrac(newPrac);
+                        for(int i=0; i<appData.getStudents().size(); i++)
+                        {
+                            Student student = appData.getStudent(i);
+                            student.addPrac(newPrac);
+                        }
                         Toast.makeText(getContext(),"Practical Added",Toast.LENGTH_SHORT).show();
+
+                        ft.replace(R.id.main,new AdminHomeFragment()).commit();
                     }
-                    else
+                    else if(purpose.equals("viewPractical"))
                     {
-                        Toast.makeText(getContext(),"Practical Failed To Added",Toast.LENGTH_SHORT).show();
+                        Prac prac = appData.getPrac(pos);
+
+                        for(int i=0; i<appData.getStudents().size(); i++)
+                        {
+                            Student student = appData.getStudent(i);
+                            for(int j=0; j<student.getPracs().size(); j++)
+                            {
+                                Prac prac1 = student.getPracs().get(j);
+
+                                if(prac1.getTitle().equals(prac.getTitle())
+                                        &&prac1.getDescription().equals(prac.getDescription()))
+                                {
+                                    Prac prac2 = student.getPracs().get(j);
+                                    prac2.setMaxMarks(Double.parseDouble(maxMark.getText().toString()));
+                                    prac2.setDescription(description.getText().toString());
+                                    prac2.setTitle(name.getText().toString());
+                                    j = student.getPracs().size();
+                                }
+                            }
+                        }
+                        prac.setMaxMarks(Double.parseDouble(maxMark.getText().toString()));
+                        prac.setDescription(description.getText().toString());
+                        prac.setTitle(name.getText().toString());
+                        Toast.makeText(getContext(),"Practical Edited",Toast.LENGTH_SHORT).show();
+
+                        ViewPracListFragment pracListFragment = new ViewPracListFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("source","Admin");
+                        bundle.putString("purpose","viewPracticals");
+                        pracListFragment.setArguments(bundle);
+                        ft.replace(R.id.main,pracListFragment).commit();
                     }
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"Practical Failed To Save",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -117,7 +176,30 @@ public class AddPracFragment extends Fragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Prac prac = appData.getPrac(pos);
+                appData.getPracs().remove(prac);
+                for(int i=0; i<appData.getStudents().size(); i++)
+                {
+                    Student student = appData.getStudent(i);
+                    for(int j=0; j<student.getPracs().size(); j++)
+                    {
+                        Prac prac1 = student.getPracs().get(j);
 
+                        if(prac1.getTitle().equals(prac.getTitle())
+                                &&prac1.getDescription().equals(prac.getDescription()))
+                        {
+                            student.getPracs().remove(j);
+                            j = student.getPracs().size();
+                        }
+                    }
+                }
+                Toast.makeText(getContext(),"Practical Removed",Toast.LENGTH_SHORT).show();
+                ViewPracListFragment pracListFragment = new ViewPracListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("source","Admin");
+                bundle.putString("purpose","viewPracticals");
+                pracListFragment.setArguments(bundle);
+                ft.replace(R.id.main,pracListFragment).commit();
             }
         });
     }

@@ -7,60 +7,91 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pracgrader.R;
+import com.example.pracgrader.classfiles.AppData;
+import com.example.pracgrader.classfiles.Instructor;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RegisterAdminFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
+
 public class RegisterAdminFragment extends Fragment {
+    EditText userName;
+    TextView pinLabel;
+    Button register;
+    List<EditText> pin;
+    AppData appData = AppData.getInstance();
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    int attempt = 0;
 
     public RegisterAdminFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RegisterAdminFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RegisterAdminFragment newInstance(String param1, String param2) {
-        RegisterAdminFragment fragment = new RegisterAdminFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register_admin, container, false);
+        View view = inflater.inflate(R.layout.fragment_register_admin, container, false);
+        setXML(view);
+
+
+        return view;
+    }
+
+    private void setXML(View view)
+    {
+        userName = view.findViewById(R.id.username);
+        pinLabel = view.findViewById(R.id.pinLabel);
+        register = view.findViewById(R.id.register);
+        pin.add(view.findViewById(R.id.pinNum1));
+        pin.add(view.findViewById(R.id.pinNum2));
+        pin.add(view.findViewById(R.id.pinNum3));
+        pin.add(view.findViewById(R.id.pinNum4));
+    }
+
+    private void onClicks()
+    {
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(pinCheck()&&userNameCheck())
+                {
+
+                }
+            }
+        });
+    }
+
+    private boolean pinCheck()
+    {
+        // Has Pin
+        boolean validPin = true;
+        if(pin.get(0).length()==0 || pin.get(1).length()==0
+                || pin.get(2).length() ==0 || pin.get(3).length() ==0)
+        {
+            Toast.makeText(getContext(),"Enter 4 digit pin",Toast.LENGTH_SHORT).show();
+            validPin = false;
+        }
+        return  validPin;
+    }
+
+    private boolean userNameCheck()
+    {
+        // Unique Username
+        boolean validUserName = appData.uniqueUsername(userName.getText().toString());
+        if(userName.length()==0)
+        {
+            validUserName = false;
+            Toast.makeText(getContext(),"Please enter username",Toast.LENGTH_SHORT).show();
+        }
+        else if(!validUserName)
+        {
+            Toast.makeText(getContext(),"Username taken",Toast.LENGTH_SHORT).show();
+        }
+        return validUserName;
     }
 }

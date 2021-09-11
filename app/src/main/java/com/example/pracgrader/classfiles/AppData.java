@@ -124,22 +124,28 @@ public class AppData {
     {
         Prac prac1 = new Prac("Prac1",10,"Prac1");
         Prac prac2 = new Prac("Prac2",20,"Prac2");
+        Prac prac3 = new Prac("Prac3",20,"Prac3");
         pracs.add(prac1);
         pracs.add(prac2);
+        pracs.add(prac3);
 
         Student std1 = new Student("std1",1111,"std1","std@email.com", R.drawable.flag_au);
         std1.addPrac(prac1);
         std1.addPrac(prac2);
+        std1.addPrac(prac3);
         Student std2 = new Student("std2",1111,"std2","std@email.com", R.drawable.flag_au);
         std2.addPrac(prac1);
         std2.addPrac(prac2);
+        std2.addPrac(prac3);
 
         Student std3 = new Student("std3",1111,"std3","std@email.com", R.drawable.flag_au);
-        std1.addPrac(prac1);
-        std1.addPrac(prac2);
+        std3.addPrac(prac1);
+        std3.addPrac(prac2);
+        std3.addPrac(prac3);
         Student std4 = new Student("std4",1111,"std4","std@email.com", R.drawable.flag_au);
-        std2.addPrac(prac1);
-        std2.addPrac(prac2);
+        std4.addPrac(prac1);
+        std4.addPrac(prac2);
+        std4.addPrac(prac3);
 
         students.add(std1);
         students.add(std2);
@@ -152,7 +158,7 @@ public class AppData {
 
         Admin admin = new Admin("admin",1111,students);
 
-        admins.add(admin);
+        //admins.add(admin);
         instructors.add(inst1);
     }
 

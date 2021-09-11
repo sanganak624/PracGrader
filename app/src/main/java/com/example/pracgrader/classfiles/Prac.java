@@ -34,7 +34,7 @@ public class Prac {
         return mark;
     }
 
-    public void setMark(int mark) {
+    public void setMark(double mark) {
         this.mark = mark;
     }
 
@@ -49,5 +49,6 @@ public class Prac {
         this.title = title;
         this.maxMarks = maxMarks;
         this.description = description;
+        mark = -1;
     }
 }

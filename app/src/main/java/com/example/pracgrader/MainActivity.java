@@ -29,7 +29,11 @@ public class MainActivity  extends AppCompatActivity {
         if(appData.getAdmins().size()!=0)
         {
             LoginFragment loginFrag = (LoginFragment) fm.findFragmentById(R.id.main);
-            ft.add(R.id.main, loginFrag).commit();
+            if(loginFrag==null)
+            {
+                loginFrag = new LoginFragment();
+                ft.add(R.id.main, loginFrag).commit();
+            }
         }
         else
         {

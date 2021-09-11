@@ -43,6 +43,7 @@ public class NewUserFragment extends Fragment {
     Button back;
     Button register;
     Button delete;
+    Button grade;
 
     String source;
     String purpose;
@@ -80,16 +81,19 @@ public class NewUserFragment extends Fragment {
                     title.setText("New Instructor");
                     register.setText("Register");
                     delete.setVisibility(View.GONE);
+                    grade.setVisibility(View.GONE);
                     break;
                 case "addStudent":
                     title.setText("New Student");
                     register.setText("Register");
                     delete.setVisibility(View.GONE);
+                    grade.setVisibility(View.VISIBLE);
                     break;
                 case "viewInstructor":
                     title.setText("Edit Instructor");
                     register.setText("Save");
                     delete.setVisibility(View.VISIBLE);
+                    grade.setVisibility(View.GONE);
 
                     Instructor instructor = appData.getInstructor(pos);
 
@@ -108,6 +112,7 @@ public class NewUserFragment extends Fragment {
                     title.setText("Student Name");
                     register.setText("Save");
                     delete.setVisibility(View.VISIBLE);
+                    grade.setVisibility(View.VISIBLE);
 
                     Student student = appData.getStudent(pos);
 
@@ -134,6 +139,7 @@ public class NewUserFragment extends Fragment {
                     title.setText("Instructor Name");
                     register.setText("Save");
                     delete.setVisibility(View.GONE);
+                    grade.setVisibility(View.GONE);
 
                     name.setText(instructor.getName());
                     email.setText(instructor.getEmail());
@@ -150,12 +156,14 @@ public class NewUserFragment extends Fragment {
                     title.setText("New Student");
                     register.setText("Register");
                     delete.setVisibility(View.GONE);
+                    grade.setVisibility(View.VISIBLE);
 
                     break;
                 case "viewStudent":
                     title.setText("Student Name");
                     register.setText("Save");
                     delete.setVisibility(View.VISIBLE);
+                    grade.setVisibility(View.VISIBLE);
                     Student student = instructor.getStudents().get(pos);
                     name.setText(student.getName());
                     email.setText(student.getEmail());
@@ -176,6 +184,22 @@ public class NewUserFragment extends Fragment {
         {
             switch (purpose)
             {
+                case "editProfile":
+                    title.setText("Instructor Name");
+                    register.setText("Save");
+                    delete.setVisibility(View.GONE);
+                    grade.setVisibility(View.GONE);
+                    Student student = (Student) appData.getCurrentUser();
+                    name.setText(student.getName());
+                    email.setText(student.getEmail());
+                    userName.setText(student.getUsername());
+                    country.setSelection(flagListAdapter.getFlagPosition(student.getCountry()));
+                    String strPin = Integer.toString(student.getPin());
+                    pin.get(0).setText(Character.toString(strPin.charAt(0)));
+                    pin.get(1).setText(Character.toString(strPin.charAt(1)));
+                    pin.get(2).setText(Character.toString(strPin.charAt(2)));
+                    pin.get(3).setText(Character.toString(strPin.charAt(3)));
+                    break;
                 default:
             }
         }
@@ -187,6 +211,7 @@ public class NewUserFragment extends Fragment {
     {
         title = view.findViewById(R.id.title);
         country = (Spinner) view.findViewById(R.id.countryDropdown);
+        grade = view.findViewById(R.id.grade);
         name = view.findViewById(R.id.name);
         email = view.findViewById(R.id.email);
         userName = view.findViewById(R.id.username);
@@ -279,20 +304,33 @@ public class NewUserFragment extends Fragment {
                     }
                     else if(purpose.equals("editProfile"))
                     {
-                        Instructor instructor = (Instructor) appData.getCurrentUser();
-                        instructor.setName(name.getText().toString());
-                        instructor.setEmail(email.getText().toString());
-                        instructor.setUsername(userName.getText().toString());
-                        instructor.setCountry(flagSelected);
-                        instructor.setPin(AppData.stringToPin(pin));
-                        Toast.makeText(getContext(),"Details Updated",Toast.LENGTH_SHORT).show();
+                        if(source.equals("Instructor"))
+                        {
+                            Instructor instructor = (Instructor) appData.getCurrentUser();
+                            instructor.setName(name.getText().toString());
+                            instructor.setEmail(email.getText().toString());
+                            instructor.setUsername(userName.getText().toString());
+                            instructor.setCountry(flagSelected);
+                            instructor.setPin(AppData.stringToPin(pin));
+                            Toast.makeText(getContext(), "Details Updated", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(source.equals("Student"))
+                        {
+                            Student student = (Student) appData.getCurrentUser();
+                            student.setName(name.getText().toString());
+                            student.setEmail(email.getText().toString());
+                            student.setUsername(userName.getText().toString());
+                            student.setCountry(flagSelected);
+                            student.setPin(AppData.stringToPin(pin));
+                            Toast.makeText(getContext(), "Details Updated", Toast.LENGTH_SHORT).show();
+                        }
                     }
+                    changeFragment();
                 }
                 else
                 {
                     Toast.makeText(getContext(),"User Not Added",Toast.LENGTH_SHORT).show();
                 }
-                changeFragment();
             }
         });
 
@@ -330,6 +368,19 @@ public class NewUserFragment extends Fragment {
                     Toast.makeText(getContext(),"Student Removed",Toast.LENGTH_SHORT).show();
                 }
                 changeFragment();
+            }
+        });
+
+        grade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewPracListFragment viewPracListFragment = new ViewPracListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("source",source);
+                bundle.putString("purpose","gradePrac");
+                bundle.putInt("loc",pos);
+                viewPracListFragment.setArguments(bundle);
+                ft.replace(R.id.main,viewPracListFragment).commit();
             }
         });
 
@@ -388,7 +439,14 @@ public class NewUserFragment extends Fragment {
     {
         // Unique Username
         boolean validUserName = appData.uniqueUsername(userName.getText().toString());
-        if(purpose.equals("viewInstructor")||purpose.equals("editProfile"))
+        if(source.equals("Student")||(source.equals("Instructor")&&purpose.equals("editProfile")))
+        {
+            if(appData.getCurrentUser().getUsername().equals(userName.getText().toString()))
+            {
+                validUserName = true;
+            }
+        }
+        else if(purpose.equals("viewInstructor"))
         {
             if(appData.getInstructor(pos).getUsername().equals(userName.getText().toString()))
             {
@@ -496,6 +554,10 @@ public class NewUserFragment extends Fragment {
         else if(source.equals("Instructor"))
         {
             ft.replace(R.id.main, new InstructorHomeFragment()).commit();
+        }
+        else if(source.equals("Student"))
+        {
+            ft.replace(R.id.main, new StudentHomeFragment()).commit();
         }
     }
 
