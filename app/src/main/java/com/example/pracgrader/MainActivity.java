@@ -35,22 +35,6 @@ public class MainActivity  extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        /*
-        Fragment fragment = fm.findFragmentById(R.id.main);
-        if(fragment!=null)
-        {
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.remove(fragment).commit();
-        }
-        else {
-            super.onBackPressed();
-        }
-        */
-    }
-
     public void startLogin()
     {
         LoginFragment loginFrag = (LoginFragment) fm.findFragmentById(R.id.main);

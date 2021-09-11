@@ -15,8 +15,16 @@ public class Admin extends User {
     }
 
     public Admin(String username, int pin, List<Student> students) {
-        super(username, pin);
+        super(username, pin,1);
         this.students = students;
+    }
+
+    public Admin(String username, int pin) {
+        super(username, pin,1);
+    }
+
+    public Admin() {
+        super(null, -1,1);
     }
 
     public void addStudent(Student student)

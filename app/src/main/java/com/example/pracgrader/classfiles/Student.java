@@ -42,7 +42,7 @@ public class Student extends User {
     }
 
     public Student(String username, int pin, String name, String email, int country, List<Prac> pracs) {
-        super(username, pin);
+        super(username, pin,3);
         this.name = name;
         this.country = country;
         this.pracs = pracs;
@@ -50,14 +50,13 @@ public class Student extends User {
     }
 
     public Student(String username, int pin, String name, String email, int country) {
-        super(username, pin);
+        super(username, pin, 3);
         this.name = name;
         this.country = country;
         this.email = email;
     }
 
     public Student(String name, String email, int country) {
-        super(null, -1);
         this.name = name;
         this.country = country;
         this.email = email;
@@ -65,7 +64,7 @@ public class Student extends User {
 
     public Student()
     {
-        super(null,-1);
+        super.setRole(3);
     }
 
     public void addPrac(Prac newPrac)

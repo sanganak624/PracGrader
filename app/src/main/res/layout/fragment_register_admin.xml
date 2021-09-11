@@ -116,4 +116,14 @@
         app:layout_constraintTop_toBottomOf="@+id/pinNum1"
         />
 
+    <TextView
+        android:id="@+id/pinLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Pin"
+        app:layout_constraintBottom_toTopOf="@+id/pinNum3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="30dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:text="Back"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/headerRow"
+
         app:layout_constraintStart_toStartOf="parent"/>
 
 

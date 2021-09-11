@@ -50,15 +50,21 @@ public class Instructor extends User {
     }
 
     public Instructor(String username, int pin,String name, String email, int country, List<Student> students) {
-        super(username, pin);
+        super(username, pin, 2);
         this.email = email;
         this.name = name;
         this.country = country;
         this.students = students;
     }
 
+    public Instructor(String username, int pin, String name, String email, int country) {
+        super(username, pin, 2);
+        this.email = email;
+        this.name = name;
+        this.country = country;
+    }
+
     public Instructor(String name, String email, int country) {
-        super(null,-1);
         this.email = email;
         this.name = name;
         this.country = country;
@@ -66,6 +72,6 @@ public class Instructor extends User {
 
     public Instructor()
     {
-        super(null,-1);
+        super.setRole(2);
     }
 }

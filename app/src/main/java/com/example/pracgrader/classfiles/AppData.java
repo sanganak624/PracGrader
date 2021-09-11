@@ -175,6 +175,32 @@ public class AppData {
         return true;
     }
 
+    public User findUsername(String newUser)
+    {
+        //Admin list
+        for (int i = 0; i < admins.size(); i++) {
+            if (admins.get(i).username.equals(newUser))
+            {
+                return admins.get(i);
+            }
+        }
+        //Instructor List
+        for (int i = 0; i < instructors.size(); i++) {
+            if (instructors.get(i).username.equals(newUser))
+            {
+                return instructors.get(i);
+            }
+        }
+        //Student List
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).username.equals(newUser))
+            {
+                return  students.get(i);
+            }
+        }
+        return null;
+    }
+
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }

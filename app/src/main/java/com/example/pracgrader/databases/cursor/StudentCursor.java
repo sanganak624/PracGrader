@@ -19,6 +19,6 @@ public class StudentCursor extends CursorWrapper {
         String email = getString(getColumnIndex(DatabaseSchema.StudentTable.Cols.EMAIL));
         int country = getInt(getColumnIndex(DatabaseSchema.StudentTable.Cols.COUNTRY));
 
-        return new Student(username,pin,name,email,country,null);
+        return new Student(username,pin,name,email,country);
     }
 }

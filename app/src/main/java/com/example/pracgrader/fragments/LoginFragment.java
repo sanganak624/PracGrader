@@ -1,88 +1,143 @@
 package com.example.pracgrader.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.pracgrader.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.pracgrader.classfiles.AppData;
+import com.example.pracgrader.classfiles.User;
+
+import java.util.LinkedList;
+import java.util.List;
+
+
 public class LoginFragment extends Fragment {
     private Button signIn;
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private List<EditText> pin = new LinkedList<>();
+    private EditText userName;
+    private AppData appData = AppData.getInstance();
 
     public LoginFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment login.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
-        LoginFragment fragment = new LoginFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        // Inflate the layout for this fragment
+        setXML(view);
+        onFocus();
+        onClicks();
 
-        signIn = view.findViewById(R.id.signIn);
+       return view;
+    }
 
-
+    private void onClicks()
+    {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction fm = getParentFragmentManager().beginTransaction();
-                fm.replace(R.id.main,new AdminHomeFragment()).commit();
+                if(userNameCheck()&&pinCheck())
+                {
+                    User curUser = appData.getCurrentUser();
+                    FragmentTransaction fm = getParentFragmentManager().beginTransaction();
+                    if(curUser.getRole()==1)
+                    {
+                        fm.replace(R.id.main,new AdminHomeFragment()).commit();
+                    }
+                    else if(curUser.getRole()==2)
+                    {
+                        fm.replace(R.id.main,new InstructorHomeFragment()).commit();
+                    }
+                    else if(curUser.getRole()==3)
+                    {
+                        fm.replace(R.id.main,new StudentHomeFragment()).commit();
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"Something went wrong",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"Invalid User Details",Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
 
-        return view;
+    private void onFocus()
+    {
+        userName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!userName.hasFocus()) {
+                    userNameCheck();
+                }
+            }
+        });
+    }
 
+    private boolean userNameCheck()
+    {
+        // Unique Username
+        boolean validUsername = true;
+        if(userName.length()!=0)
+        {
+            User curUser = appData.findUsername(userName.getText().toString());
 
+            if(curUser!=null) {
+                appData.setCurrentUser(curUser);
+                validUsername = true;
+            }
+            else {
+                validUsername = false;
+                Toast.makeText(getContext(),"Invalid Username",Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            validUsername = false;
+            Toast.makeText(getContext(),"Enter Username",Toast.LENGTH_SHORT).show();
+        }
+        return validUsername;
+    }
+
+    private boolean pinCheck()
+    {
+        boolean correctPin = false;
+        if(this.pin.get(0).length()==0 || this.pin.get(1).length()==0
+                || this.pin.get(2).length() ==0 || this.pin.get(3).length() ==0)
+        {
+            Toast.makeText(getContext(),"Enter 4 digit pin",Toast.LENGTH_SHORT).show();
+            correctPin = false;
+        }
+        else
+        {
+            int pin = AppData.stringToPin(this.pin);
+            if (appData.getCurrentUser().getPin() == pin) {
+                correctPin = true;
+            }
+        }
+        return correctPin;
+    }
+
+    private void setXML(View view)
+    {
+        signIn = view.findViewById(R.id.signIn);
+        userName = view.findViewById(R.id.username);
+        pin.add(view.findViewById(R.id.pinNum1));
+        pin.add(view.findViewById(R.id.pinNum2));
+        pin.add(view.findViewById(R.id.pinNum3));
+        pin.add(view.findViewById(R.id.pinNum4));
     }
 }

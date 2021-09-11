@@ -17,6 +17,6 @@ public class AdminCursor extends CursorWrapper {
         String username = getString(getColumnIndex(DatabaseSchema.AdminTable.Cols.USERNAME));
         int pin = getInt(getColumnIndex(DatabaseSchema.AdminTable.Cols.PIN));
 
-        return new Admin(username, pin,null);
+        return new Admin(username, pin);
     }
 }

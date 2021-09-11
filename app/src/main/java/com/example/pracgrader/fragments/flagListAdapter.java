@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.pracgrader.R;
@@ -56,5 +57,14 @@ public class flagListAdapter extends ArrayAdapter<String> {
         return row;
     }
 
-
+    public int getFlagPosition(@Nullable Integer flag) {
+        for(int i=0; i<flags.size(); i++)
+        {
+            if(flags.get(i).equals(flag))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

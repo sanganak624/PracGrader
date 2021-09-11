@@ -20,6 +20,6 @@ public class InstructorCursor extends CursorWrapper {
         String email = getString(getColumnIndex(DatabaseSchema.InstructorTable.Cols.EMAIL));
         int country = getInt(getColumnIndex(DatabaseSchema.InstructorTable.Cols.COUNTRY));
 
-        return new Instructor(username,pin,name,email,country,null);
+        return new Instructor(username,pin,name,email,country);
     }
 }

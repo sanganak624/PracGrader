@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.pracgrader.R;
+import com.example.pracgrader.classfiles.AppData;
 
 public class AdminHomeFragment extends Fragment {
     Button logout;
@@ -20,6 +21,7 @@ public class AdminHomeFragment extends Fragment {
     Button viewInstructors;
     Button viewStudents;
     Button viewPracticals;
+    AppData appData = AppData.getInstance();
 
     public AdminHomeFragment() {
         // Required empty public constructor
@@ -54,6 +56,7 @@ public class AdminHomeFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                appData.setCurrentUser(null);
                 ft.replace(R.id.main,new LoginFragment()).commit();
             }
         });
@@ -63,7 +66,8 @@ public class AdminHomeFragment extends Fragment {
             public void onClick(View view) {
                 NewUserFragment newUserFragment = new NewUserFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("source","addInstructorAdmin");
+                bundle.putString("source","Admin");
+                bundle.putString("purpose","addInstructor");
                 newUserFragment.setArguments(bundle);
                 ft.replace(R.id.main,newUserFragment).commit();
             }
@@ -74,7 +78,8 @@ public class AdminHomeFragment extends Fragment {
             public void onClick(View view) {
                 NewUserFragment newUserFragment = new NewUserFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("source","addStudentAdmin");
+                bundle.putString("source","Admin");
+                bundle.putString("purpose","addStudent");
                 newUserFragment.setArguments(bundle);
                 ft.replace(R.id.main,newUserFragment).commit();
             }
@@ -85,7 +90,8 @@ public class AdminHomeFragment extends Fragment {
             public void onClick(View view) {
                 AddPracFragment addPracFragment = new AddPracFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("source","addPracticalsAdmin");
+                bundle.putString("source","Admin");
+                bundle.putString("purpose","addPracticals");
                 addPracFragment.setArguments(bundle);
                 ft.replace(R.id.main,addPracFragment).commit();
             }
@@ -94,7 +100,12 @@ public class AdminHomeFragment extends Fragment {
         viewInstructors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ft.replace(R.id.main,new ViewInstructorsFragment()).commit();
+                ViewInstructorsFragment viewInstructorsFragment = new ViewInstructorsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("source","Admin");
+                bundle.putString("purpose","viewInstructors");
+                viewInstructorsFragment.setArguments(bundle);
+                ft.replace(R.id.main,viewInstructorsFragment).commit();
             }
         });
 
@@ -103,7 +114,8 @@ public class AdminHomeFragment extends Fragment {
             public void onClick(View view) {
                 ViewStudentListFragment viewStudentListFragment = new ViewStudentListFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("source","viewStudentsAdmin");
+                bundle.putString("source","Admin");
+                bundle.putString("purpose","viewStudents");
                 viewStudentListFragment.setArguments(bundle);
                 ft.replace(R.id.main,viewStudentListFragment).commit();
             }
@@ -114,7 +126,8 @@ public class AdminHomeFragment extends Fragment {
             public void onClick(View view) {
                 ViewPracListFragment pracListFragment = new ViewPracListFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("source","viewPracticalsAdmin");
+                bundle.putString("source","Admin");
+                bundle.putString("purpose","viewPracticals");
                 pracListFragment.setArguments(bundle);
                 ft.replace(R.id.main,pracListFragment).commit();
             }

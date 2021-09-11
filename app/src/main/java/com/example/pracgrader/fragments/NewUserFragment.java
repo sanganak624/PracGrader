@@ -44,7 +44,9 @@ public class NewUserFragment extends Fragment {
     Button register;
     Button delete;
 
-    String version;
+    String source;
+    String purpose;
+    int pos;
 
     List<String> flagNames = AppData.getInstance().getFlagName();
     List<Integer> flagIds = AppData.getInstance().getFlags();
@@ -61,56 +63,87 @@ public class NewUserFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_user, container, false);
 
-        String source = "Admin";
         Bundle bundle = getArguments();
-        if(bundle != null)
-        {
-            source = bundle.getString("source","Admin");
-            version = source;
-        }
+        source = bundle.getString("source");
+        purpose = bundle.getString("purpose");
+        pos = bundle.getInt("loc");
+
         setXML(view);
         adapterListner();
         onClicks();
         onFocusListeners();
-
-        switch (source)
+        if(source.equals("Admin"))
         {
-            case "addInstructorAdmin":
-                title.setText("New Instructor");
-                register.setText("Register");
-                delete.setVisibility(View.GONE);
-                break;
-            case "addStudentAdmin":
-                title.setText("New Student");
-                register.setText("Register");
-                delete.setVisibility(View.GONE);
-                break;
-            case "viewInstructorsAdmin":
-                title.setText("Instructor Name");
-                register.setText("Save");
-                delete.setVisibility(View.VISIBLE);
-                break;
-            case "viewStudentsAdmin":
-                title.setText("Student Name");
-                register.setText("Save");
-                delete.setVisibility(View.VISIBLE);
-                break;
-            case "editProfileInstructor":
-                title.setText("Instructor Name");
-                register.setText("Save");
-                delete.setVisibility(View.GONE);
-                break;
-            case "addStudentInstructor":
-                title.setText("New Student");
-                register.setText("Register");
-                delete.setVisibility(View.GONE);
-                break;
-            case "viewStudentsInstructor":
-                title.setText("Student Name");
-                register.setText("Save");
-                delete.setVisibility(View.VISIBLE);
-                break;
-            default:
+            switch (purpose)
+            {
+                case "addInstructor":
+                    title.setText("New Instructor");
+                    register.setText("Register");
+                    delete.setVisibility(View.GONE);
+                    break;
+                case "addStudent":
+                    title.setText("New Student");
+                    register.setText("Register");
+                    delete.setVisibility(View.GONE);
+                    break;
+                case "viewInstructor":
+                    Instructor instructor = appData.getInstructor(pos);
+                    title.setText("Edit Instructor");
+                    register.setText("Save");
+                    delete.setVisibility(View.VISIBLE);
+
+                    name.setText(instructor.getName());
+                    email.setText(instructor.getEmail());
+                    userName.setText(instructor.getUsername());
+
+
+                    country.setSelection(flagListAdapter.getFlagPosition(instructor.getCountry()));
+
+                    String strPin = Integer.toString(instructor.getPin());
+                    pin.get(0).setText(Character.toString(strPin.charAt(0)));
+                    pin.get(1).setText(Character.toString(strPin.charAt(1)));
+                    pin.get(2).setText(Character.toString(strPin.charAt(2)));
+                    pin.get(3).setText(Character.toString(strPin.charAt(3)));
+
+
+                    break;
+                case "viewStudent":
+                    title.setText("Student Name");
+                    register.setText("Save");
+                    delete.setVisibility(View.VISIBLE);
+                    break;
+                default:
+            }
+        }
+        else if (source.equals("Instructor"))
+        {
+            switch (purpose)
+            {
+                case "editProfile":
+                    title.setText("Instructor Name");
+                    register.setText("Save");
+                    delete.setVisibility(View.GONE);
+                    break;
+                case "addStudent":
+                    title.setText("New Student");
+                    register.setText("Register");
+                    delete.setVisibility(View.GONE);
+                    break;
+                case "viewStudentr":
+                    title.setText("Student Name");
+                    register.setText("Save");
+                    delete.setVisibility(View.VISIBLE);
+                    break;
+
+            }
+
+        }
+        else if(source.equals("Student"))
+        {
+            switch (purpose)
+            {
+                default:
+            }
         }
 
         return view;
@@ -139,7 +172,7 @@ public class NewUserFragment extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ft.replace(R.id.main,new AdminHomeFragment()).commit();
+                changeFragment();
             }
         });
 
@@ -148,7 +181,7 @@ public class NewUserFragment extends Fragment {
             public void onClick(View view) {
                 if(userNameCheck()&&emailCheck()&&pinCheck()&&nameCheck())
                 {
-                    if(version.equals("addInstructorAdmin"))
+                    if(purpose.equals("addInstructor"))
                     {
                         Instructor newInstructor = new Instructor();
                         newInstructor.setUsername(userName.getText().toString());
@@ -160,7 +193,7 @@ public class NewUserFragment extends Fragment {
                         appData.addInstructor(newInstructor);
                         Toast.makeText(getContext(),"Instructor added",Toast.LENGTH_SHORT).show();
                     }
-                    else if(version.equals("addStudentAdmin"))
+                    else if(purpose.equals("addStudent"))
                     {
                         Student newStudent = new Student();
                         newStudent.setUsername(userName.getText().toString());
@@ -172,18 +205,34 @@ public class NewUserFragment extends Fragment {
                         appData.addStudent(newStudent);
                         Toast.makeText(getContext(),"Student added",Toast.LENGTH_SHORT).show();
                     }
+                    else if(purpose.equals("viewInstructor"))
+                    {
+                        Instructor instructor = appData.getInstructor(pos);
+                        instructor.setName(name.getText().toString());
+                        instructor.setEmail(email.getText().toString());
+                        instructor.setUsername(userName.getText().toString());
+                        instructor.setCountry(flagSelected);
+                        //instructor.setPin(AppData.stringToPin(pin));
+                        Toast.makeText(getContext(),"Instructor Details Updated",Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
                     Toast.makeText(getContext(),"User Not Added",Toast.LENGTH_SHORT).show();
                 }
+                changeFragment();
             }
         });
 
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(purpose.equals("viewInstructor"))
+                {
+                    appData.getInstructors().remove(pos);
+                    Toast.makeText(getContext(),"Instructor Removed",Toast.LENGTH_SHORT).show();
+                }
+                changeFragment();
             }
         });
 
@@ -242,6 +291,13 @@ public class NewUserFragment extends Fragment {
     {
         // Unique Username
         boolean validUserName = appData.uniqueUsername(userName.getText().toString());
+        if(purpose.equals("viewInstructor"))
+        {
+            if(appData.getInstructor(pos).getUsername().equals(userName.getText().toString()))
+            {
+                validUserName = true;
+            }
+        }
         if(userName.length()==0)
         {
             validUserName = false;
@@ -299,7 +355,38 @@ public class NewUserFragment extends Fragment {
         return  validName;
     }
 
-
+    private void changeFragment()
+    {
+        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+        if(source.equals("Admin"))
+        {
+            if(purpose.equals("viewInstructor"))
+            {
+                ViewInstructorsFragment viewInstructorsFragment = new ViewInstructorsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("source",source);
+                bundle.putString("purpose","viewInstructors");
+                viewInstructorsFragment.setArguments(bundle);
+                ft.replace(R.id.main,viewInstructorsFragment).commit();
+            }
+            else if(purpose.equals("viewStudent"))
+            {
+                ViewStudentListFragment viewStudentListFragment = new ViewStudentListFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("source",source);
+                bundle.putString("purpose","viewStudents");
+                viewStudentListFragment.setArguments(bundle);
+                ft.replace(R.id.main,viewStudentListFragment).commit();
+            }
+            else {
+                ft.replace(R.id.main, new AdminHomeFragment()).commit();
+            }
+        }
+        else if(source.equals("Instructor"))
+        {
+            ft.replace(R.id.main, new InstructorHomeFragment()).commit();
+        }
+    }
 
 
 }
