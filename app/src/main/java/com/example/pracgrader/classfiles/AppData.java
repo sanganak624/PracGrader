@@ -127,25 +127,33 @@ public class AppData {
         pracs.add(prac1);
         pracs.add(prac2);
 
-        Student std1 = new Student("std1",1234,"std","std@email.com", R.drawable.flag_au);
+        Student std1 = new Student("std1",1111,"std1","std@email.com", R.drawable.flag_au);
         std1.addPrac(prac1);
         std1.addPrac(prac2);
-        Student std2 = new Student("std2",1234,"std","std@email.com", R.drawable.flag_au);
+        Student std2 = new Student("std2",1111,"std2","std@email.com", R.drawable.flag_au);
         std2.addPrac(prac1);
         std2.addPrac(prac2);
+
+        Student std3 = new Student("std3",1111,"std3","std@email.com", R.drawable.flag_au);
+        std1.addPrac(prac1);
+        std1.addPrac(prac2);
+        Student std4 = new Student("std4",1111,"std4","std@email.com", R.drawable.flag_au);
+        std2.addPrac(prac1);
+        std2.addPrac(prac2);
+
         students.add(std1);
         students.add(std2);
+        students.add(std3);
+        students.add(std4);
 
-        LinkedList<Student> instStudent = new LinkedList<>();
-        instStudent.add(std2);
+        Instructor inst1 = new Instructor("inst1",1111,"inst","inst@email.com",R.drawable.flag_af);
+        inst1.addStudent(std3);
+        inst1.addStudent(std4);
 
-        Instructor inst1 = new Instructor("inst1",1234,"inst","inst@email.com",R.drawable.flag_af,instStudent);
-        Admin admin = new Admin("admin",1234,students);
+        Admin admin = new Admin("admin",1111,students);
 
         admins.add(admin);
         instructors.add(inst1);
-
-        currentUser = inst1;
     }
 
     //Validation checks

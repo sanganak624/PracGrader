@@ -13,25 +13,28 @@ import com.example.pracgrader.classfiles.AppData;
 import com.example.pracgrader.fragments.AdminHomeFragment;
 import com.example.pracgrader.fragments.LoginFragment;
 import com.example.pracgrader.fragments.NewUserFragment;
+import com.example.pracgrader.fragments.RegisterAdminFragment;
 
 public class MainActivity  extends AppCompatActivity {
     FragmentManager fm = getSupportFragmentManager();
+    AppData appData = AppData.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AppData.getInstance().fillTestData();
-
-
-        LoginFragment loginFrag = (LoginFragment) fm.findFragmentById(R.id.main);
-
-        if(loginFrag==null)
+        appData.fillTestData();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack(null);
+        if(appData.getAdmins().size()!=0)
         {
-            loginFrag = new LoginFragment();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.addToBackStack(null);
-            ft.add(R.id.main,loginFrag).commit();
+            LoginFragment loginFrag = (LoginFragment) fm.findFragmentById(R.id.main);
+            ft.add(R.id.main, loginFrag).commit();
+        }
+        else
+        {
+            RegisterAdminFragment registerAdminFragment = (RegisterAdminFragment) fm.findFragmentById(R.id.main);
+            ft.add(R.id.main, registerAdminFragment).commit();
         }
     }
 

@@ -28,54 +28,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.example.pracgrader.classfiles.AppData;
+import com.example.pracgrader.classfiles.Instructor;
 import com.example.pracgrader.classfiles.Student;
 import com.example.pracgrader.classfiles.FlagData;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ViewStudentListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ViewStudentListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    String source;
+    String purpose;
+    int pos;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    AppData appData = AppData.getInstance();
+
 
     public ViewStudentListFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ViewStudentListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ViewStudentListFragment newInstance(String param1, String param2) {
-        ViewStudentListFragment fragment = new ViewStudentListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -83,10 +50,24 @@ public class ViewStudentListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_student_list, container, false);
+
+        Bundle bundle = getArguments();
+        source = bundle.getString("source");
+        purpose = bundle.getString("purpose");
+        pos = bundle.getInt("loc");
+
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.studentList);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        StudentListAdapter studentListAdapter = new StudentListAdapter();
+        StudentListAdapter studentListAdapter;
+        if(source.equals("Instructor"))
+        {
+            studentListAdapter = new StudentListAdapter(((Instructor)appData.getCurrentUser()).getStudents());
+        }
+        else
+        {
+            studentListAdapter = new StudentListAdapter(appData.getStudents());
+        }
         rv.setAdapter(studentListAdapter);
 
         //Source Resources from XML
@@ -128,7 +109,6 @@ public class ViewStudentListFragment extends Fragment {
 
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -141,7 +121,14 @@ public class ViewStudentListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-                ft.replace(R.id.main,new AdminHomeFragment()).commit();
+                if(source.equals("Admin"))
+                {
+                    ft.replace(R.id.main, new AdminHomeFragment()).commit();
+                }
+                else if(source.equals("Instructor"))
+                {
+                    ft.replace(R.id.main, new InstructorHomeFragment()).commit();
+                }
             }
         });
 
@@ -151,6 +138,11 @@ public class ViewStudentListFragment extends Fragment {
     public class StudentListAdapter extends RecyclerView.Adapter<StudentListViewHolder>
     {
         List<Student> students = new LinkedList<Student>();
+
+        public StudentListAdapter(List<Student> students)
+        {
+            this.students = students;
+        }
         @NonNull
         @Override
         public StudentListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -162,12 +154,12 @@ public class ViewStudentListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull StudentListViewHolder holder, int position) {
-            holder.bind(AppData.getInstance().getStudent(position));
+            holder.bind(students.get(position),position);
         }
 
         @Override
         public int getItemCount() {
-            return AppData.getInstance().getStudents().size();
+            return students.size();
         }
     }
 
@@ -188,7 +180,7 @@ public class ViewStudentListFragment extends Fragment {
             linearLayout = itemView.findViewById(R.id.linearLayout);
         }
 
-        public void bind(Student student)
+        public void bind(Student student,int position)
         {
             name.setText(student.getName());
             mark.setText(student.getEmail());
@@ -196,8 +188,18 @@ public class ViewStudentListFragment extends Fragment {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    /*
                     linearLayout.setBackgroundColor(Color.BLACK);
                     Toast.makeText(getActivity(), "Button Pressed", Toast.LENGTH_SHORT).show();
+                    */
+                    FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                    NewUserFragment newUserFragment = new NewUserFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("source",source);
+                    bundle.putString("purpose","viewStudent");
+                    bundle.putInt("loc",position);
+                    newUserFragment.setArguments(bundle);
+                    ft.replace(R.id.main,newUserFragment).commit();
                 }
             });
         }

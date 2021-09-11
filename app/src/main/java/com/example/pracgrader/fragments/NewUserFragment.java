@@ -87,52 +87,86 @@ public class NewUserFragment extends Fragment {
                     delete.setVisibility(View.GONE);
                     break;
                 case "viewInstructor":
-                    Instructor instructor = appData.getInstructor(pos);
                     title.setText("Edit Instructor");
                     register.setText("Save");
                     delete.setVisibility(View.VISIBLE);
 
+                    Instructor instructor = appData.getInstructor(pos);
+
                     name.setText(instructor.getName());
                     email.setText(instructor.getEmail());
                     userName.setText(instructor.getUsername());
-
-
                     country.setSelection(flagListAdapter.getFlagPosition(instructor.getCountry()));
-
                     String strPin = Integer.toString(instructor.getPin());
                     pin.get(0).setText(Character.toString(strPin.charAt(0)));
                     pin.get(1).setText(Character.toString(strPin.charAt(1)));
                     pin.get(2).setText(Character.toString(strPin.charAt(2)));
                     pin.get(3).setText(Character.toString(strPin.charAt(3)));
 
-
                     break;
                 case "viewStudent":
                     title.setText("Student Name");
                     register.setText("Save");
                     delete.setVisibility(View.VISIBLE);
+
+                    Student student = appData.getStudent(pos);
+
+                    name.setText(student.getName());
+                    email.setText(student.getEmail());
+                    userName.setText(student.getUsername());
+                    country.setSelection(flagListAdapter.getFlagPosition(student.getCountry()));
+                    strPin = Integer.toString(student.getPin());
+                    pin.get(0).setText(Character.toString(strPin.charAt(0)));
+                    pin.get(1).setText(Character.toString(strPin.charAt(1)));
+                    pin.get(2).setText(Character.toString(strPin.charAt(2)));
+                    pin.get(3).setText(Character.toString(strPin.charAt(3)));
+
                     break;
                 default:
             }
         }
         else if (source.equals("Instructor"))
         {
+            Instructor instructor = (Instructor) appData.getCurrentUser();
             switch (purpose)
             {
                 case "editProfile":
                     title.setText("Instructor Name");
                     register.setText("Save");
                     delete.setVisibility(View.GONE);
+
+                    name.setText(instructor.getName());
+                    email.setText(instructor.getEmail());
+                    userName.setText(instructor.getUsername());
+                    country.setSelection(flagListAdapter.getFlagPosition(instructor.getCountry()));
+                    String strPin = Integer.toString(instructor.getPin());
+                    pin.get(0).setText(Character.toString(strPin.charAt(0)));
+                    pin.get(1).setText(Character.toString(strPin.charAt(1)));
+                    pin.get(2).setText(Character.toString(strPin.charAt(2)));
+                    pin.get(3).setText(Character.toString(strPin.charAt(3)));
+
                     break;
                 case "addStudent":
                     title.setText("New Student");
                     register.setText("Register");
                     delete.setVisibility(View.GONE);
+
                     break;
-                case "viewStudentr":
+                case "viewStudent":
                     title.setText("Student Name");
                     register.setText("Save");
                     delete.setVisibility(View.VISIBLE);
+                    Student student = instructor.getStudents().get(pos);
+                    name.setText(student.getName());
+                    email.setText(student.getEmail());
+                    userName.setText(student.getUsername());
+                    country.setSelection(flagListAdapter.getFlagPosition(student.getCountry()));
+                    strPin = Integer.toString(student.getPin());
+                    pin.get(0).setText(Character.toString(strPin.charAt(0)));
+                    pin.get(1).setText(Character.toString(strPin.charAt(1)));
+                    pin.get(2).setText(Character.toString(strPin.charAt(2)));
+                    pin.get(3).setText(Character.toString(strPin.charAt(3)));
+
                     break;
 
             }
@@ -201,9 +235,14 @@ public class NewUserFragment extends Fragment {
                         newStudent.setEmail(email.getText().toString());
                         newStudent.setName(name.getText().toString());
                         newStudent.setCountry(flagSelected);
-
                         appData.addStudent(newStudent);
-                        Toast.makeText(getContext(),"Student added",Toast.LENGTH_SHORT).show();
+
+                        if(source.equals("Instructor"))
+                        {
+                            Instructor instructor = (Instructor) appData.getCurrentUser();
+                            instructor.addStudent(newStudent);
+                        }
+                        Toast.makeText(getContext(), "Student added", Toast.LENGTH_SHORT).show();
                     }
                     else if(purpose.equals("viewInstructor"))
                     {
@@ -212,8 +251,41 @@ public class NewUserFragment extends Fragment {
                         instructor.setEmail(email.getText().toString());
                         instructor.setUsername(userName.getText().toString());
                         instructor.setCountry(flagSelected);
-                        //instructor.setPin(AppData.stringToPin(pin));
+                        instructor.setPin(AppData.stringToPin(pin));
                         Toast.makeText(getContext(),"Instructor Details Updated",Toast.LENGTH_SHORT).show();
+                    }
+                    else if(purpose.equals("viewStudent"))
+                    {
+                        if(source.equals("Admin"))
+                        {
+                            Student student = appData.getStudent(pos);
+                            student.setName(name.getText().toString());
+                            student.setEmail(email.getText().toString());
+                            student.setUsername(userName.getText().toString());
+                            student.setCountry(flagSelected);
+                            student.setPin(AppData.stringToPin(pin));
+                        }
+                        else if(source.equals("Instructor"))
+                        {
+                            Instructor instructor = (Instructor) appData.getCurrentUser();
+                            Student student = instructor.getStudents().get(pos);
+                            student.setName(name.getText().toString());
+                            student.setEmail(email.getText().toString());
+                            student.setUsername(userName.getText().toString());
+                            student.setCountry(flagSelected);
+                            student.setPin(AppData.stringToPin(pin));
+                        }
+                        Toast.makeText(getContext(),"Student Details Updated",Toast.LENGTH_SHORT).show();
+                    }
+                    else if(purpose.equals("editProfile"))
+                    {
+                        Instructor instructor = (Instructor) appData.getCurrentUser();
+                        instructor.setName(name.getText().toString());
+                        instructor.setEmail(email.getText().toString());
+                        instructor.setUsername(userName.getText().toString());
+                        instructor.setCountry(flagSelected);
+                        instructor.setPin(AppData.stringToPin(pin));
+                        Toast.makeText(getContext(),"Details Updated",Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
@@ -231,6 +303,31 @@ public class NewUserFragment extends Fragment {
                 {
                     appData.getInstructors().remove(pos);
                     Toast.makeText(getContext(),"Instructor Removed",Toast.LENGTH_SHORT).show();
+
+                }
+                if(purpose.equals("viewStudent"))
+                {
+                    if(source.equals("Admin"))
+                    {
+                        Student student = appData.getStudent(pos);
+                        appData.getStudents().remove(student);
+                        List<Instructor> instructors = appData.getInstructors();
+                        for(int i=0;i<instructors.size();i++)
+                        {
+                            if(instructors.get(i).getStudents().remove(student))
+                            {
+                                i=instructors.size();
+                            }
+                        }
+                    }
+                    else if(source.equals("Instructor"))
+                    {
+                        Instructor instructor = (Instructor) appData.getCurrentUser();
+                        Student student = instructor.getStudents().get(pos);
+                        instructor.getStudents().remove(student);
+                        appData.getStudents().remove(student);
+                    }
+                    Toast.makeText(getContext(),"Student Removed",Toast.LENGTH_SHORT).show();
                 }
                 changeFragment();
             }
@@ -291,11 +388,25 @@ public class NewUserFragment extends Fragment {
     {
         // Unique Username
         boolean validUserName = appData.uniqueUsername(userName.getText().toString());
-        if(purpose.equals("viewInstructor"))
+        if(purpose.equals("viewInstructor")||purpose.equals("editProfile"))
         {
             if(appData.getInstructor(pos).getUsername().equals(userName.getText().toString()))
             {
                 validUserName = true;
+            }
+        }
+        else if(purpose.equals("viewStudent"))
+        {
+            if(source.equals("Admin")) {
+                if (appData.getStudent(pos).getUsername().equals(userName.getText().toString())) {
+                    validUserName = true;
+                }
+            }
+            else if(source.equals("Instructor"))
+            {
+                if (((Instructor)appData.getCurrentUser()).getStudents().get(pos).getUsername().equals(userName.getText().toString())) {
+                    validUserName = true;
+                }
             }
         }
         if(userName.length()==0)

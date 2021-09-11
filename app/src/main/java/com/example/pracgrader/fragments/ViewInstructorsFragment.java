@@ -26,6 +26,7 @@ public class ViewInstructorsFragment extends Fragment {
     String source;
     String purpose;
     int pos;
+
     public ViewInstructorsFragment() {
         // Required empty public constructor
     }

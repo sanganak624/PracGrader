@@ -19,7 +19,8 @@
         android:id="@+id/searchText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text=""
+        android:hint="Student Name"
         app:layout_constraintBottom_toTopOf="@id/headerRow"
         app:layout_constraintStart_toEndOf="@id/choiceSpinner" />
 
@@ -50,7 +51,7 @@
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/headerRow"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
