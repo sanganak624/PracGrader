@@ -23,7 +23,10 @@ public class MainActivity  extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        appData.fillTestData();
+        //appData.fillTestData();
+
+        appData.loadData(getApplicationContext());
+
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(null);
         if(appData.getAdmins().size()!=0)

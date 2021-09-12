@@ -47,6 +47,7 @@ public class DatabaseSchema {
             public static final String TITLE = "title";
             public static final String DIS = "description";
             public static final String MAXMARK = "maxmark";
+            public static final String HASMARK = "hasmark"; //1=has mark 0=No mark
         }
     }
 

@@ -1,10 +1,13 @@
 package com.example.pracgrader.classfiles;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.EditText;
 
 import com.example.pracgrader.R;
+import com.example.pracgrader.databases.models.AdminList;
+import com.example.pracgrader.databases.models.InstructorList;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,12 +15,18 @@ import java.util.List;
 public class AppData {
     private static AppData instance = null;
 
+    //Local Memory
     List<Admin> admins = new LinkedList<Admin>();
     List<Student> students = new LinkedList<Student>();
     List<Instructor> instructors = new LinkedList<Instructor>();
     List<Prac> pracs = new LinkedList<Prac>();
-
     FlagData flagData = new FlagData();
+
+    //Database
+    AdminList adminDb;
+    InstructorList instructorDb;
+
+
 
     User currentUser = null;
 
@@ -120,8 +129,25 @@ public class AppData {
         pracs.add(newPrac);
     }
 
+    public AdminList getAdminDb() {
+        return adminDb;
+    }
+
+    public InstructorList getInstructorDb() {
+        return instructorDb;
+    }
+
+    public void loadData(Context context)
+    {
+        adminDb = new AdminList();
+        adminDb.loadAdmins(context);
+        instructorDb = new InstructorList();
+        instructorDb.loadInstructors(context);
+    }
+
     public void fillTestData()
     {
+
         Prac prac1 = new Prac("Prac1",10,"Prac1");
         Prac prac2 = new Prac("Prac2",20,"Prac2");
         Prac prac3 = new Prac("Prac3",20,"Prac3");

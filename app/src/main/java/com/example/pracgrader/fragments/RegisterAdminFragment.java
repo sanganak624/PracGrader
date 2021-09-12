@@ -84,7 +84,7 @@ public class RegisterAdminFragment extends Fragment {
                         Admin admin = new Admin();
                         admin.setPin(newPin);
                         admin.setUsername(userName.getText().toString());
-                        appData.addAdmin(admin);
+                        appData.getAdminDb().addAdmin(admin);
                         Toast.makeText(getContext(),"Admin Created",Toast.LENGTH_SHORT).show();
                         FragmentTransaction ft = getParentFragmentManager().beginTransaction();
                         ft.replace(R.id.main, new LoginFragment()).commit();

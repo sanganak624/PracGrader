@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.pracgrader.classfiles.Admin;
+import com.example.pracgrader.classfiles.AppData;
 import com.example.pracgrader.databases.DatabaseHelper;
 import com.example.pracgrader.databases.cursor.AdminCursor;
 import com.example.pracgrader.databases.schema.DatabaseSchema;
@@ -13,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminList {
-    private List<Admin> admins = new ArrayList<>();
+    private AppData appData = AppData.getInstance();
+    private List<Admin> admins = appData.getAdmins();
     private SQLiteDatabase pracGraderDb;
 
     public AdminList(){
@@ -33,41 +35,7 @@ public class AdminList {
             adminCursor.moveToFirst();
             while (!adminCursor.isAfterLast())
             {
-                Admin newAdmin = adminCursor.getAdmin();
-
-                admins.add(newAdmin);
-//
-//                if(newUser.getRole()==1)
-//                {
-//                    // rs = pracGraderDb.query()
-//                    //admins.add(newUser);
-//                }
-//                else if(newUser.getRole()==2)
-//                {
-//                    String query = "Select * from " + DatabaseSchema.InstructorTable.NAME + " where "
-//                            + DatabaseSchema.InstructorTable.Cols.USERNAME + " = " + newUser.getUsername();
-//                    InstructorCursor instructorCursor = new InstructorCursor(pracGraderDb.rawQuery(query,null));
-//                    if(instructorCursor.getCount()==1)
-//                    {
-//                        Instructor tempInstructor = instructorCursor.getInstructor();
-//                        instructors.add(new Instructor(newUser.getUsername(), newUser.getPin(), newUser.getRole(),
-//                                tempInstructor.getEmail(),tempInstructor.getName(),tempInstructor.getCountry(),null));
-//                    }
-//                    instructorCursor.close();
-//                }
-//                else if (newUser.getRole()==3)
-//                {
-//                    String query = "Select * from " + DatabaseSchema.StudentTable.NAME + " where "
-//                            + DatabaseSchema.StudentTable.Cols.USERNAME + " = " + newUser.getUsername();
-//                    StudentCursor studentCursor = new StudentCursor(pracGraderDb.rawQuery(query,null));
-//                    if(studentCursor.getCount()==1)
-//                    {
-//                        Student tempStudent = studentCursor.getStudent();
-//                        instructors.add(new Instructor(newUser.getUsername(), newUser.getPin(), newUser.getRole(),
-//                                tempStudent.getEmail(),tempStudent.getName(),tempStudent.getCountry(),null));
-//                    }
-//                    studentCursor.close();
-//                }
+                admins.add(adminCursor.getAdmin());
                 adminCursor.moveToNext();
             }
         }

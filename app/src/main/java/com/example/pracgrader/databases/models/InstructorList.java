@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.pracgrader.classfiles.Admin;
+import com.example.pracgrader.classfiles.AppData;
 import com.example.pracgrader.classfiles.Instructor;
 import com.example.pracgrader.databases.DatabaseHelper;
 import com.example.pracgrader.databases.cursor.InstructorCursor;
@@ -14,7 +16,8 @@ import java.util.List;
 
 public class InstructorList {
 
-    private List<Instructor> instructors = new ArrayList<>();
+    private AppData appData = AppData.getInstance();
+    private List<Instructor> instructors = appData.getInstructors();
     private SQLiteDatabase pracGraderDb;
 
     public InstructorList(){
@@ -27,7 +30,7 @@ public class InstructorList {
         {
             pracGraderDb = new DatabaseHelper(context.getApplicationContext()).getWritableDatabase();
         }
-        InstructorCursor instructorCursor = new InstructorCursor(pracGraderDb.query(DatabaseSchema.AdminTable.NAME,
+        InstructorCursor instructorCursor = new InstructorCursor(pracGraderDb.query(DatabaseSchema.InstructorTable.NAME,
                 null,null,null,null,null,null));
         try{
             instructorCursor.moveToFirst();
@@ -81,6 +84,13 @@ public class InstructorList {
         pracGraderDb.update(DatabaseSchema.InstructorTable.NAME, cv,
                 DatabaseSchema.InstructorTable.Cols.USERNAME + " = ?", whereValue);
 
+    }
+
+    public void removeInstructor(Instructor instructor)
+    {
+        instructors.remove(instructor);
+        String[] whereValue = {String.valueOf(instructor.getUsername())};
+        pracGraderDb.delete(DatabaseSchema.InstructorTable.NAME, DatabaseSchema.InstructorTable.Cols.USERNAME+" = ?", whereValue);
     }
 
 }

@@ -249,7 +249,8 @@ public class NewUserFragment extends Fragment {
                         newInstructor.setName(name.getText().toString());
                         newInstructor.setCountry(flagSelected);
 
-                        appData.addInstructor(newInstructor);
+                        appData.getInstructorDb().addInstructor(newInstructor);
+
                         Toast.makeText(getContext(),"Instructor added",Toast.LENGTH_SHORT).show();
                     }
                     else if(purpose.equals("addStudent"))
@@ -277,6 +278,9 @@ public class NewUserFragment extends Fragment {
                         instructor.setUsername(userName.getText().toString());
                         instructor.setCountry(flagSelected);
                         instructor.setPin(AppData.stringToPin(pin));
+
+                        appData.getInstructorDb().editInstructor(instructor);
+
                         Toast.makeText(getContext(),"Instructor Details Updated",Toast.LENGTH_SHORT).show();
                     }
                     else if(purpose.equals("viewStudent"))
@@ -312,6 +316,7 @@ public class NewUserFragment extends Fragment {
                             instructor.setUsername(userName.getText().toString());
                             instructor.setCountry(flagSelected);
                             instructor.setPin(AppData.stringToPin(pin));
+                            appData.getInstructorDb().editInstructor(instructor);
                             Toast.makeText(getContext(), "Details Updated", Toast.LENGTH_SHORT).show();
                         }
                         else if(source.equals("Student"))
@@ -339,9 +344,8 @@ public class NewUserFragment extends Fragment {
             public void onClick(View view) {
                 if(purpose.equals("viewInstructor"))
                 {
-                    appData.getInstructors().remove(pos);
+                    appData.getInstructorDb().removeInstructor(appData.getInstructors().get(pos));
                     Toast.makeText(getContext(),"Instructor Removed",Toast.LENGTH_SHORT).show();
-
                 }
                 if(purpose.equals("viewStudent"))
                 {
