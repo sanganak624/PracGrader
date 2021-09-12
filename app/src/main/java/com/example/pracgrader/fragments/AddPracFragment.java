@@ -121,7 +121,7 @@ public class AddPracFragment extends Fragment {
                         Prac newPrac = new Prac(name.getText().toString(),Double.parseDouble(maxMark.getText().toString())
                         ,description.getText().toString());
 
-                        appData.addPrac(newPrac);
+                        appData.getPracDb().addPrac(newPrac);
                         for(int i=0; i<appData.getStudents().size(); i++)
                         {
                             Student student = appData.getStudent(i);
@@ -156,6 +156,9 @@ public class AddPracFragment extends Fragment {
                         prac.setMaxMarks(Double.parseDouble(maxMark.getText().toString()));
                         prac.setDescription(description.getText().toString());
                         prac.setTitle(name.getText().toString());
+
+                        appData.getPracDb().editPrac(prac);
+
                         Toast.makeText(getContext(),"Practical Edited",Toast.LENGTH_SHORT).show();
 
                         ViewPracListFragment pracListFragment = new ViewPracListFragment();
@@ -177,7 +180,7 @@ public class AddPracFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Prac prac = appData.getPrac(pos);
-                appData.getPracs().remove(prac);
+                appData.getPracDb().removePrac(prac);
                 for(int i=0; i<appData.getStudents().size(); i++)
                 {
                     Student student = appData.getStudent(i);
@@ -193,6 +196,7 @@ public class AddPracFragment extends Fragment {
                         }
                     }
                 }
+
                 Toast.makeText(getContext(),"Practical Removed",Toast.LENGTH_SHORT).show();
                 ViewPracListFragment pracListFragment = new ViewPracListFragment();
                 Bundle bundle = new Bundle();

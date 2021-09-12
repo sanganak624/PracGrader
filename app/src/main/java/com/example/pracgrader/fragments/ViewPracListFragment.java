@@ -39,6 +39,7 @@ public class ViewPracListFragment extends Fragment {
     String source;
     String purpose;
     int pos;
+    Student curStudent;
     AppData appData = AppData.getInstance();
     Button back;
 
@@ -61,7 +62,8 @@ public class ViewPracListFragment extends Fragment {
         {
             if(purpose.equals("gradePrac"))
             {
-                pracs = ((Admin) appData.getCurrentUser()).getStudents().get(pos).getPracs();
+                curStudent = appData.getStudents().get(pos);
+                pracs = curStudent.getPracs();
             }
             else
             {
@@ -70,11 +72,13 @@ public class ViewPracListFragment extends Fragment {
         }
         else if(source.equals("Instructor"))
         {
-            pracs = ((Instructor) appData.getCurrentUser()).getStudents().get(pos).getPracs();
+            curStudent = ((Instructor) appData.getCurrentUser()).getStudents().get(pos);
+            pracs = curStudent.getPracs();
         }
         else
         {
-            pracs = ((Student) appData.getCurrentUser()).getPracs();
+            curStudent = ((Student) appData.getCurrentUser());
+            pracs = curStudent.getPracs();
         }
 
         PracListAdapter pracListAdapter = new PracListAdapter(pracs);
@@ -216,7 +220,16 @@ public class ViewPracListFragment extends Fragment {
                     {
                         if(checkMark(prac))
                         {
-                            prac.setMark(Double.parseDouble(pracMark.getText().toString()));
+                            if(prac.getMark()==-1)
+                            {
+                                prac.setMark(Double.parseDouble(pracMark.getText().toString()));
+                                appData.getMarksDb().addMark(prac,curStudent);
+                            }
+                            else
+                            {
+                                prac.setMark(Double.parseDouble(pracMark.getText().toString()));
+                                appData.getMarksDb().editMark(prac, curStudent);
+                            }
                             Toast.makeText(getContext(),"Mark Updated",Toast.LENGTH_SHORT).show();
                         }
                         else

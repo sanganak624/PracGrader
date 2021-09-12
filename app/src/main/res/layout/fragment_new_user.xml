@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Username"
-        android:digits="abcdefghijklmnopqrstuvwxyz!@#$%^*_123456789"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
         android:imeOptions="actionNext"
         android:inputType="textPersonName"
         android:singleLine="true"

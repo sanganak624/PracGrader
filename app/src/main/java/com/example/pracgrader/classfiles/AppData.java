@@ -8,6 +8,9 @@ import android.widget.EditText;
 import com.example.pracgrader.R;
 import com.example.pracgrader.databases.models.AdminList;
 import com.example.pracgrader.databases.models.InstructorList;
+import com.example.pracgrader.databases.models.MarksList;
+import com.example.pracgrader.databases.models.PracList;
+import com.example.pracgrader.databases.models.StudentList;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,8 +28,9 @@ public class AppData {
     //Database
     AdminList adminDb;
     InstructorList instructorDb;
-
-
+    StudentList studentDb;
+    PracList pracDb;
+    MarksList marksDb;
 
     User currentUser = null;
 
@@ -137,12 +141,30 @@ public class AppData {
         return instructorDb;
     }
 
+    public StudentList getStudentDb() {
+        return studentDb;
+    }
+
+    public PracList getPracDb() {
+        return pracDb;
+    }
+
+    public MarksList getMarksDb() {
+        return marksDb;
+    }
+
     public void loadData(Context context)
     {
         adminDb = new AdminList();
         adminDb.loadAdmins(context);
         instructorDb = new InstructorList();
         instructorDb.loadInstructors(context);
+        studentDb = new StudentList();
+        studentDb.loadStudents(context);
+        pracDb = new PracList();
+        pracDb.loadPracs(context);
+        marksDb = new MarksList();
+        marksDb.loadPracs(context);
     }
 
     public void fillTestData()

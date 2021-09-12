@@ -261,13 +261,13 @@ public class NewUserFragment extends Fragment {
                         newStudent.setEmail(email.getText().toString());
                         newStudent.setName(name.getText().toString());
                         newStudent.setCountry(flagSelected);
-                        appData.addStudent(newStudent);
+                        appData.getStudentDb().addStudent(newStudent,appData.getCurrentUser());
 
-                        if(source.equals("Instructor"))
+                        /*if(source.equals("Instructor"))
                         {
                             Instructor instructor = (Instructor) appData.getCurrentUser();
-                            instructor.addStudent(newStudent);
-                        }
+                            appData.getStudentDb().addStudent(newStudent,instructor);
+                        }*/
                         Toast.makeText(getContext(), "Student added", Toast.LENGTH_SHORT).show();
                     }
                     else if(purpose.equals("viewInstructor"))
@@ -293,6 +293,7 @@ public class NewUserFragment extends Fragment {
                             student.setUsername(userName.getText().toString());
                             student.setCountry(flagSelected);
                             student.setPin(AppData.stringToPin(pin));
+                            appData.getStudentDb().editStudent(student);
                         }
                         else if(source.equals("Instructor"))
                         {
@@ -303,6 +304,7 @@ public class NewUserFragment extends Fragment {
                             student.setUsername(userName.getText().toString());
                             student.setCountry(flagSelected);
                             student.setPin(AppData.stringToPin(pin));
+                            appData.getStudentDb().editStudent(student);
                         }
                         Toast.makeText(getContext(),"Student Details Updated",Toast.LENGTH_SHORT).show();
                     }
@@ -327,6 +329,7 @@ public class NewUserFragment extends Fragment {
                             student.setUsername(userName.getText().toString());
                             student.setCountry(flagSelected);
                             student.setPin(AppData.stringToPin(pin));
+                            appData.getStudentDb().editStudent(student);
                             Toast.makeText(getContext(), "Details Updated", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -361,6 +364,7 @@ public class NewUserFragment extends Fragment {
                                 i=instructors.size();
                             }
                         }
+                        appData.getStudentDb().removeStudent(student);
                     }
                     else if(source.equals("Instructor"))
                     {
@@ -368,6 +372,7 @@ public class NewUserFragment extends Fragment {
                         Student student = instructor.getStudents().get(pos);
                         instructor.getStudents().remove(student);
                         appData.getStudents().remove(student);
+                        appData.getStudentDb().removeStudent(student);
                     }
                     Toast.makeText(getContext(),"Student Removed",Toast.LENGTH_SHORT).show();
                 }

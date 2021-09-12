@@ -5,6 +5,15 @@ public class Prac {
     double maxMarks;
     double mark;
     String description;
+    int hasMark;
+
+    public int getHasMark() {
+        return hasMark;
+    }
+
+    public void setHasMark(int hasMark) {
+        this.hasMark = hasMark;
+    }
 
     public String getTitle() {
         return title;

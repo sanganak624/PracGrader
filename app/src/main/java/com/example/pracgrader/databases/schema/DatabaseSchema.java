@@ -57,7 +57,9 @@ public class DatabaseSchema {
         public static class Cols
         {
             public static final String TITLE = "title";
-            public static final String USERNAME = "description";
+            public static final String DIS = "description";
+            public static final String MAXMARK = "maxmark";
+            public static final String USERNAME = "username";
             public static final String MARK = "mark";
         }
     }

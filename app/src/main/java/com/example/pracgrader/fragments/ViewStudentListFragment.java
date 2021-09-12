@@ -103,7 +103,7 @@ public class ViewStudentListFragment extends Fragment {
         }
         else
         {
-            students = ((Admin) appData.getCurrentUser()).getStudents();
+            students = appData.getStudents();
         }
 
         for(int i=0; i<students.size();i++)

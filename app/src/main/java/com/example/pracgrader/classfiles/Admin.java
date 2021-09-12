@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Admin extends User {
-    List<Student> students = new LinkedList<>();
-
+    //List<Student> students = new LinkedList<>();
+    /*
     public List<Student> getStudents() {
         return students;
     }
@@ -14,9 +14,11 @@ public class Admin extends User {
         this.students = students;
     }
 
+     */
+
     public Admin(String username, int pin, List<Student> students) {
         super(username, pin,1);
-        this.students = students;
+        //this.students = students;
     }
 
     public Admin(String username, int pin) {
@@ -27,8 +29,8 @@ public class Admin extends User {
         super(null, -1,1);
     }
 
-    public void addStudent(Student student)
+    /*public void addStudent(Student student)
     {
         students.add(student);
-    }
+    }*/
 }
