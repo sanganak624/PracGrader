@@ -21,7 +21,8 @@ public class StudentCursor extends CursorWrapper {
         String name = getString(getColumnIndex(DatabaseSchema.StudentTable.Cols.NAME));
         String email = getString(getColumnIndex(DatabaseSchema.StudentTable.Cols.EMAIL));
         int country = getInt(getColumnIndex(DatabaseSchema.StudentTable.Cols.COUNTRY));
-        Student student = new Student(username,pin,name,email,country);
+        Double mark = getDouble(getColumnIndex(DatabaseSchema.StudentTable.Cols.MARK));
+        Student student = new Student(username,pin,name,email,country,mark);
 
         String creator = getString(getColumnIndex(DatabaseSchema.StudentTable.Cols.CREATOR));
 

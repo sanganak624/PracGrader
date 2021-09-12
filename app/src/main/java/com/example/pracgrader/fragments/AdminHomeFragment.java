@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.example.pracgrader.R;
 import com.example.pracgrader.classfiles.AppData;
@@ -57,7 +58,13 @@ public class AdminHomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 appData.setCurrentUser(null);
+                if(appData.isTablet())
+                {
+                    FrameLayout frame = appData.getSub();
+                    frame.setVisibility(View.GONE);
+                }
                 ft.replace(R.id.main,new LoginFragment()).commit();
+
             }
         });
 

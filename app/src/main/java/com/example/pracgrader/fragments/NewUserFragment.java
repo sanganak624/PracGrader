@@ -87,7 +87,7 @@ public class NewUserFragment extends Fragment {
                     title.setText("New Student");
                     register.setText("Register");
                     delete.setVisibility(View.GONE);
-                    grade.setVisibility(View.VISIBLE);
+                    grade.setVisibility(View.GONE);
                     break;
                 case "viewInstructor":
                     title.setText("Edit Instructor");
@@ -156,7 +156,7 @@ public class NewUserFragment extends Fragment {
                     title.setText("New Student");
                     register.setText("Register");
                     delete.setVisibility(View.GONE);
-                    grade.setVisibility(View.VISIBLE);
+                    grade.setVisibility(View.GONE);
 
                     break;
                 case "viewStudent":

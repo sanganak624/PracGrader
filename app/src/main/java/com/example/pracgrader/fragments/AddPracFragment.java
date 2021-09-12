@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -105,7 +106,16 @@ public class AddPracFragment extends Fragment {
                     bundle.putString("source","Admin");
                     bundle.putString("purpose","viewPracticals");
                     pracListFragment.setArguments(bundle);
-                    ft.replace(R.id.main,pracListFragment).commit();
+                    if(appData.isTablet())
+                    {
+                        FrameLayout frame = appData.getSub();
+                        frame.setVisibility(View.GONE);
+                        ft.replace(R.id.sub,pracListFragment).commit();
+                    }
+                    else
+                    {
+                        ft.replace(R.id.main, pracListFragment).commit();
+                    }
                 }
             }
         });
@@ -166,7 +176,17 @@ public class AddPracFragment extends Fragment {
                         bundle.putString("source","Admin");
                         bundle.putString("purpose","viewPracticals");
                         pracListFragment.setArguments(bundle);
-                        ft.replace(R.id.main,pracListFragment).commit();
+                        if(appData.isTablet())
+                        {
+                            FrameLayout frame = appData.getSub();
+                            frame.setVisibility(View.GONE);
+                            //ft.replace(R.id.sub,pracListFragment);
+                            ft.replace(R.id.main, pracListFragment).commit();
+                        }
+                        else
+                        {
+                            ft.replace(R.id.main, pracListFragment).commit();
+                        }
                     }
                 }
                 else
@@ -203,7 +223,16 @@ public class AddPracFragment extends Fragment {
                 bundle.putString("source","Admin");
                 bundle.putString("purpose","viewPracticals");
                 pracListFragment.setArguments(bundle);
-                ft.replace(R.id.main,pracListFragment).commit();
+                if(appData.isTablet())
+                {
+                    FrameLayout frame = appData.getSub();
+                    frame.setVisibility(View.GONE);
+                    ft.replace(R.id.sub,pracListFragment).commit();
+                }
+                else
+                {
+                    ft.replace(R.id.main, pracListFragment).commit();
+                }
             }
         });
     }
@@ -241,10 +270,22 @@ public class AddPracFragment extends Fragment {
 
     private boolean nameCheck()
     {
-        boolean validName = true;
+        boolean validName = appData.uniquePracName(name.getText().toString());
         if(name.length()==0)
         {
             Toast.makeText(getContext(),"Please Enter Name",Toast.LENGTH_SHORT).show();
+            validName = false;
+        }
+        else if(purpose.equals("viewPractical"))
+        {
+            Prac prac = appData.getPrac(pos);
+            if (prac.getTitle().equals(name.getText().toString())) {
+                validName = true;
+            }
+        }
+        else if(!validName)
+        {
+            Toast.makeText(getContext(),"Prac Name Used",Toast.LENGTH_SHORT).show();
             validName = false;
         }
         return  validName;
@@ -267,6 +308,11 @@ public class AddPracFragment extends Fragment {
         if(maxMark.length()==0)
         {
             Toast.makeText(getContext(),"Please Enter Max Marks",Toast.LENGTH_SHORT).show();
+            validMax = false;
+        }
+        if(Double.parseDouble(maxMark.getText().toString())<=0)
+        {
+            Toast.makeText(getContext(),"Please Enter Mark Greater Than 0",Toast.LENGTH_SHORT).show();
             validMax = false;
         }
         return  validMax;

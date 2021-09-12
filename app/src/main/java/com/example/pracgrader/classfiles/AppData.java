@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import com.example.pracgrader.R;
 import com.example.pracgrader.databases.models.AdminList;
@@ -17,6 +18,17 @@ import java.util.List;
 
 public class AppData {
     private static AppData instance = null;
+
+    boolean isTablet;
+    FrameLayout sub;
+
+    public FrameLayout getSub() {
+        return sub;
+    }
+
+    public void setSub(FrameLayout sub) {
+        this.sub = sub;
+    }
 
     //Local Memory
     List<Admin> admins = new LinkedList<Admin>();
@@ -41,6 +53,14 @@ public class AppData {
             instance = new AppData();
         }
         return instance;
+    }
+
+    public boolean isTablet() {
+        return isTablet;
+    }
+
+    public void setTablet(boolean tablet) {
+        isTablet = tablet;
     }
 
     public List<String> getFlagName()
@@ -230,6 +250,17 @@ public class AppData {
         //Student List
         for (int i = 0; i < students.size(); i++) {
             if (students.get(i).username.equals(newUser))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean uniquePracName(String pracName)
+    {
+        for (int i = 0; i < pracs.size(); i++) {
+            if (pracs.get(i).title.equals(pracName))
             {
                 return false;
             }

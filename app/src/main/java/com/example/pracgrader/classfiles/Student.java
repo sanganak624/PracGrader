@@ -56,6 +56,7 @@ public class Student extends User {
         this.country = country;
         this.pracs = pracs;
         this.email = email;
+        avgMark =-1;
     }
 
     public Student(String username, int pin, String name, String email, int country) {
@@ -63,12 +64,22 @@ public class Student extends User {
         this.name = name;
         this.country = country;
         this.email = email;
+        avgMark =-1;
+    }
+
+    public Student(String username, int pin, String name, String email, int country,double avgMark) {
+        super(username, pin, 3);
+        this.name = name;
+        this.country = country;
+        this.email = email;
+        this.avgMark = avgMark;
     }
 
     public Student(String name, String email, int country) {
         this.name = name;
         this.country = country;
         this.email = email;
+        avgMark=-1;
     }
 
     public Student()
@@ -80,6 +91,22 @@ public class Student extends User {
     {
         Prac copyPrac = new Prac(newPrac.title,newPrac.maxMarks,newPrac.mark,newPrac.description);
         pracs.add(copyPrac);
+    }
+
+    public void updateMark()
+    {
+        double totalScore=0;
+        int count = 0;
+        for(int i=0; i<pracs.size();i++)
+        {
+            double score = pracs.get(i).getMark();
+            if(score!=-1)
+            {
+                totalScore = totalScore+score/pracs.get(i).getMaxMarks()*100;
+                count++;
+            }
+        }
+        avgMark = totalScore/count;
     }
 
 }

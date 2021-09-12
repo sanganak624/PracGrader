@@ -46,6 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DatabaseSchema.StudentTable.Cols.USERNAME + " TEXT, " +
                 DatabaseSchema.StudentTable.Cols.PIN + " INTEGER, " +
                 DatabaseSchema.StudentTable.Cols.NAME + " TEXT, " +
+                DatabaseSchema.StudentTable.Cols.MARK + " REAL, " +
                 DatabaseSchema.StudentTable.Cols.EMAIL + " TEXT, " +
                 DatabaseSchema.StudentTable.Cols.COUNTRY + " INTEGER, " +
                 DatabaseSchema.StudentTable.Cols.CREATOR + " TEXT)");

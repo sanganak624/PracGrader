@@ -275,16 +275,14 @@ public class ViewStudentListFragment extends Fragment {
 
         public void bind(Student student,int position)
         {
+            double avgMark = student.getAvgMark();
             name.setText(student.getName());
-            mark.setText(student.getEmail());
+            mark.setText(Double.toString(avgMark));
             flag.setImageResource(student.getCountry());
+            rowColor(avgMark);
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*
-                    linearLayout.setBackgroundColor(Color.BLACK);
-                    Toast.makeText(getActivity(), "Button Pressed", Toast.LENGTH_SHORT).show();
-                    */
                     FragmentTransaction ft = getParentFragmentManager().beginTransaction();
                     NewUserFragment newUserFragment = new NewUserFragment();
                     Bundle bundle = new Bundle();
@@ -295,6 +293,20 @@ public class ViewStudentListFragment extends Fragment {
                     ft.replace(R.id.main,newUserFragment).commit();
                 }
             });
+        }
+
+        public void rowColor(double mark)
+        {
+            if(mark>0)
+            {
+                if (mark <= 50.0) {
+                    linearLayout.setBackgroundColor(Color.RED);
+                } else if (mark <= 80) {
+                    linearLayout.setBackgroundColor(Color.YELLOW);
+                } else {
+                    linearLayout.setBackgroundColor(Color.GREEN);
+                }
+            }
         }
     }
 }

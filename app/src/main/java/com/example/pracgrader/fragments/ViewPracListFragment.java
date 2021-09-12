@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -172,6 +173,8 @@ public class ViewPracListFragment extends Fragment {
             if(source.equals("Admin")&&purpose.equals("viewPracticals"))
             {
                 pracMark.setHint("/"+prac.getMaxMarks());
+                pracMark.setEnabled(false);
+                pracMark.setInputType(InputType.TYPE_NULL);
                 update.setText("Edit");
                 if (!pracEditable(prac))
                 {
@@ -198,7 +201,9 @@ public class ViewPracListFragment extends Fragment {
                 public void onFocusChange(View view, boolean b) {
                     if(!pracMark.hasFocus())
                     {
-                        checkMark(prac);
+                        if(!purpose.equals("viewPracticals")) {
+                            checkMark(prac);
+                        }
                     }
                 }
             });
@@ -214,10 +219,21 @@ public class ViewPracListFragment extends Fragment {
                         bundle.putString("purpose","viewPractical");
                         bundle.putInt("loc",pos);
                         viewPracListFragment.setArguments(bundle);
-                        ft.replace(R.id.main,viewPracListFragment).commit();
+                        if(appData.isTablet())
+                        {
+                            FrameLayout frame = appData.getSub();
+                            frame.setVisibility(View.VISIBLE);
+                            ft.replace(R.id.sub,viewPracListFragment).commit();
+                        }
+                        else
+                        {
+                            ft.replace(R.id.main,viewPracListFragment).commit();
+                        }
                     }
                     else
                     {
+                        pracMark.setEnabled(true);
+                        pracMark.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         if(checkMark(prac))
                         {
                             if(prac.getMark()==-1)
@@ -230,6 +246,8 @@ public class ViewPracListFragment extends Fragment {
                                 prac.setMark(Double.parseDouble(pracMark.getText().toString()));
                                 appData.getMarksDb().editMark(prac, curStudent);
                             }
+                            curStudent.updateMark();
+                            appData.getStudentDb().editStudent(curStudent);
                             Toast.makeText(getContext(),"Mark Updated",Toast.LENGTH_SHORT).show();
                         }
                         else

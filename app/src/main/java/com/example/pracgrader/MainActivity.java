@@ -3,6 +3,8 @@ package com.example.pracgrader;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -29,14 +31,32 @@ public class MainActivity  extends AppCompatActivity {
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(null);
+
+        if(findViewById(R.id.mainActivity).getTag().equals("tabletView"))
+        {
+            FrameLayout sub = findViewById(R.id.sub);
+            appData.setSub(sub);
+            appData.setTablet(true);
+            RegisterAdminFragment registerAdminFragment = (RegisterAdminFragment) fm.findFragmentById(R.id.sub);
+            if(registerAdminFragment==null)
+            {
+                registerAdminFragment = new RegisterAdminFragment();
+                ft.add(R.id.sub, registerAdminFragment);
+            }
+            sub.setVisibility(View.GONE);
+        }
+        else
+        {
+            appData.setTablet(false);
+        }
         if(appData.getAdmins().size()!=0)
         {
             LoginFragment loginFrag = (LoginFragment) fm.findFragmentById(R.id.main);
             if(loginFrag==null)
             {
                 loginFrag = new LoginFragment();
+                ft.add(R.id.main, loginFrag).commit();
             }
-            ft.add(R.id.main, loginFrag).commit();
         }
         else
         {
@@ -44,31 +64,8 @@ public class MainActivity  extends AppCompatActivity {
             if(registerAdminFragment==null)
             {
                 registerAdminFragment = new RegisterAdminFragment();
+                ft.add(R.id.main, registerAdminFragment).commit();
             }
-            ft.add(R.id.main, registerAdminFragment).commit();
         }
-    }
-
-    public void startLogin()
-    {
-        LoginFragment loginFrag = (LoginFragment) fm.findFragmentById(R.id.main);
-
-        if(loginFrag==null)
-        {
-            loginFrag = new LoginFragment();
-            fm.beginTransaction().add(R.id.main,loginFrag).commit();
-        }
-        fm.beginTransaction().add(R.id.main,loginFrag).commit();
-    }
-
-    public void startAdminHome()
-    {
-        AdminHomeFragment adminHomeFragment = (AdminHomeFragment) fm.findFragmentById(R.id.main);
-
-        if(adminHomeFragment==null)
-        {
-            adminHomeFragment = new AdminHomeFragment();
-        }
-        fm.beginTransaction().add(R.id.main,adminHomeFragment).commit();
     }
 }

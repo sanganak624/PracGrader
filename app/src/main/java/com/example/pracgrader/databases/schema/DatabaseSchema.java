@@ -34,6 +34,7 @@ public class DatabaseSchema {
             public static final String EMAIL = "email";
             public static final String COUNTRY = "country";
             public static final String NAME = "name";
+            public static final String MARK = "avgmark";
             public static final String CREATOR = "creator";
 
         }

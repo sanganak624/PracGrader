@@ -55,15 +55,11 @@ public class StudentList {
                         if(instructor.getUsername().equals(creator))
                         {
                             instructor.addStudent(newStudent);
-                            students.add(newStudent);
                             i = instructors.size();
                         }
                     }
                 }
-                else
-                {
-                    students.add(newStudent);
-                }
+                students.add(newStudent);
                 studentCursor.moveToNext();
             }
         }
@@ -103,6 +99,7 @@ public class StudentList {
         cv.put(DatabaseSchema.StudentTable.Cols.NAME,newStudent.getName());
         cv.put(DatabaseSchema.StudentTable.Cols.EMAIL,newStudent.getEmail());
         cv.put(DatabaseSchema.StudentTable.Cols.COUNTRY,newStudent.getCountry());
+        cv.put(DatabaseSchema.StudentTable.Cols.MARK,newStudent.getAvgMark());
         cv.put(DatabaseSchema.StudentTable.Cols.CREATOR,creator.getUsername());
 
         pracGraderDb.insert(DatabaseSchema.StudentTable.NAME,null,cv);
@@ -118,6 +115,7 @@ public class StudentList {
         cv.put(DatabaseSchema.StudentTable.Cols.NAME,newStudent.getName());
         cv.put(DatabaseSchema.StudentTable.Cols.EMAIL,newStudent.getEmail());
         cv.put(DatabaseSchema.StudentTable.Cols.COUNTRY,newStudent.getCountry());
+        cv.put(DatabaseSchema.StudentTable.Cols.MARK,newStudent.getAvgMark());
 
         String[] whereValue = { String.valueOf(newStudent.getUsername()) };
         pracGraderDb.update(DatabaseSchema.StudentTable.NAME, cv,
