@@ -48,9 +48,9 @@ public class NewUserFragment extends Fragment {
     String source;
     String purpose;
     int pos;
-
-    List<String> flagNames = AppData.getInstance().getFlagName();
-    List<Integer> flagIds = AppData.getInstance().getFlags();
+    FlagData flags = new FlagData();
+    List<String> flagNames = flags.getNames();
+    List<Integer> flagIds = flags.getFlags();
     flagListAdapter flagListAdapter;
 
 

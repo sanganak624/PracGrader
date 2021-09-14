@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + DatabaseSchema.PracTable.NAME + "(" +
                 DatabaseSchema.PracTable.Cols.TITLE + " TEXT, " +
                 DatabaseSchema.PracTable.Cols.MAXMARK + " REAL, " +
-                DatabaseSchema.PracTable.Cols.HASMARK + " REAL, " +
+                //DatabaseSchema.PracTable.Cols.HASMARK + " REAL, " +
                 DatabaseSchema.PracTable.Cols.DIS + " TEXT)");
 
         db.execSQL("create table " + DatabaseSchema.StudentTable.NAME + "(" +
