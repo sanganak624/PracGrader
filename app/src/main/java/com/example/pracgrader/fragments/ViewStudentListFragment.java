@@ -1,5 +1,7 @@
 package com.example.pracgrader.fragments;
 
+import static java.lang.Math.round;
+
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -277,7 +279,8 @@ public class ViewStudentListFragment extends Fragment {
         {
             double avgMark = student.getAvgMark();
             name.setText(student.getName());
-            mark.setText(Double.toString(avgMark));
+            double grade = (round(student.getAvgMark()*100))/100.0;
+            mark.setText(Double.toString(grade));
             flag.setImageResource(student.getCountry());
             rowColor(avgMark);
             edit.setOnClickListener(new View.OnClickListener() {
@@ -297,7 +300,7 @@ public class ViewStudentListFragment extends Fragment {
 
         public void rowColor(double mark)
         {
-            if(mark>0)
+            if(mark>=0)
             {
                 if (mark <= 50.0) {
                     linearLayout.setBackgroundColor(Color.RED);

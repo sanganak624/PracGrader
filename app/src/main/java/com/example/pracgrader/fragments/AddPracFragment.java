@@ -1,5 +1,7 @@
 package com.example.pracgrader.fragments;
 
+import static java.lang.Math.round;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -125,10 +127,11 @@ public class AddPracFragment extends Fragment {
             public void onClick(View view) {
                 if(desCheck()&&nameCheck()&&maxMarkCheck())
                 {
+                    double mark = round(Double.parseDouble(maxMark.getText().toString())*100)/100.0;
                     if(purpose.equals("addPracticals"))
                     {
 
-                        Prac newPrac = new Prac(name.getText().toString(),Double.parseDouble(maxMark.getText().toString())
+                        Prac newPrac = new Prac(name.getText().toString(),mark
                         ,description.getText().toString());
 
                         appData.getPracDb().addPrac(newPrac);
@@ -156,14 +159,14 @@ public class AddPracFragment extends Fragment {
                                         &&prac1.getDescription().equals(prac.getDescription()))
                                 {
                                     Prac prac2 = student.getPracs().get(j);
-                                    prac2.setMaxMarks(Double.parseDouble(maxMark.getText().toString()));
+                                    prac2.setMaxMarks(mark);
                                     prac2.setDescription(description.getText().toString());
                                     prac2.setTitle(name.getText().toString());
                                     j = student.getPracs().size();
                                 }
                             }
                         }
-                        prac.setMaxMarks(Double.parseDouble(maxMark.getText().toString()));
+                        prac.setMaxMarks(mark);
                         prac.setDescription(description.getText().toString());
                         prac.setTitle(name.getText().toString());
 

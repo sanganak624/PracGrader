@@ -2,6 +2,8 @@ package com.example.pracgrader.fragments;
 
 
 
+import static java.lang.Math.round;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -236,14 +238,15 @@ public class ViewPracListFragment extends Fragment {
                         pracMark.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         if(checkMark(prac))
                         {
+                            double grade = round(Double.parseDouble(pracMark.getText().toString())*100)/100.0;
                             if(prac.getMark()==-1)
                             {
-                                prac.setMark(Double.parseDouble(pracMark.getText().toString()));
+                                prac.setMark(grade);
                                 appData.getMarksDb().addMark(prac,curStudent);
                             }
                             else
                             {
-                                prac.setMark(Double.parseDouble(pracMark.getText().toString()));
+                                prac.setMark(grade);
                                 appData.getMarksDb().editMark(prac, curStudent);
                             }
                             curStudent.updateMark();
