@@ -26,6 +26,9 @@ import android.widget.Toast;
 
 import com.example.pracgrader.R;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,6 +57,16 @@ public class ViewStudentListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private void sortList(List<Student>students)
+    {
+        Collections.sort(students, new Comparator<Student>() {
+            @Override
+            public int compare(Student student, Student t1) {
+                return student.getName().compareTo(t1.getName());
+            }
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,11 +87,15 @@ public class ViewStudentListFragment extends Fragment {
         StudentListAdapter studentListAdapter;
         if(source.equals("Instructor"))
         {
-            studentListAdapter = new StudentListAdapter(((Instructor)appData.getCurrentUser()).getStudents());
+            List<Student> students = ((Instructor)appData.getCurrentUser()).getStudents();
+            sortList(students);
+            studentListAdapter = new StudentListAdapter(students);
         }
         else
         {
-            studentListAdapter = new StudentListAdapter(appData.getStudents());
+            List<Student> students = appData.getStudents();
+            sortList(students);
+            studentListAdapter = new StudentListAdapter(students);
         }
         rv.setAdapter(studentListAdapter);
 
@@ -175,6 +192,7 @@ public class ViewStudentListFragment extends Fragment {
                                 filteredList.add(students.get(i));
                             }
                         }
+                        sortList(filteredList);
                         StudentListAdapter newStudentList = new StudentListAdapter(filteredList);
                         rv.swapAdapter(newStudentList,false);
                     }
@@ -194,6 +212,7 @@ public class ViewStudentListFragment extends Fragment {
                             filteredList.add(students.get(i));
                         }
                     }
+                    sortList(filteredList);
                     StudentListAdapter newStudentList = new StudentListAdapter(filteredList);
                     rv.swapAdapter(newStudentList,false);
                 }
